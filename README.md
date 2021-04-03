@@ -15,14 +15,19 @@ Things to look at:
 - Add in the machine learning models from betting.
 
 
-### Introduction
+## Table of contents
+* [Introduction](#introduction)
+* [Past Literature](#past-literature)
+
+
+## Introduction
 
 Unfortunately, I am a small man. As a result, in physical confrontations, it is clear that in most circumstances things would not go well. Naturally, my first instinct would be to run as fast as possible in the opposite direction of any would-be attacker, but, I don't run so good, so likely they would catch up with me anyway. Now I'm in the same situation as before, except hot, sweaty, and out of breath. Trust me, no one wants to see that.
 
 As a result, while building up my cardio engine to race away from potential danger, I need an alternative strategy. Building such an engine might take a while too since running is basically just slamming your knees into concrete one after the other, not really my idea of a fun time. Therefore, I have done some analysis! I have looked into what makes the best fighter in an effort to mold myself into such a precense to terryify opponents, scaring them away. Also, it's a nice investigation to see what sort of natural benefits are brought by different body types. We always see Fighters' Reach and Height differences before a fight, but do they really mean anything? Well, it's time to find out.
 
 
-### Past Literature
+## Past Literature
 
 There are many different philosphies when it comes to fighting. [Bruce Lee](https://en.wikipedia.org/wiki/Bruce_Lee) often said to 'be like water', indicating the necessity of being fluid, adaptable, flexible to anything that is presented to you. From this was born [Jeet Kune Do](https://en.wikipedia.org/wiki/Jeet_Kune_Do), widely considered one of the first attempts at mixing the martial arts. [Conor McGregor](https://en.wikipedia.org/wiki/Conor_McGregor) further emphasised this movement focussed aspect of fighting, even hiring his own movement coach, [Ido Portal](https://en.wikipedia.org/wiki/The_Ido_Portal_Method). There are [interviews](https://www.youtube.com/watch?v=eATllx9jdRM) with McGregor belittling (no surprise there) larger fighters being ['stiff as a board'](https://www.youtube.com/watch?v=sFkoF0IzXeg) and 'addicting to strength and conditioning'. Here a fighter must be nimble and have control over his movements. This echoes a man many consider [the greatest ever](https://en.wikipedia.org/wiki/Muhammad_Ali), 'float like a butterfly, sting like a bee'.
 
