@@ -18,7 +18,10 @@ Things to look at:
 ## Table of contents
 * [Introduction](#introduction)
 * [Past Literature](#past-literature)
-* [Data](#data)
+* [Data Collection and Cleaning](#data-collection-and-cleaning)
+* [Data Inspection](#data-inspection)
+* [The Reach Advantage](#the-reach-advantage)
+* [Styles Make Fights](#styles-make-fights)
 
 
 ## Introduction
@@ -40,7 +43,7 @@ One of the first things that you come across when looking at fighters are stats 
 
 Further to this, a common adage in fighting is that ['styles make fights'](styles make fights clothing). There are a multitude of different styles that a fighter can take on. In boxing alone you can fight Ortodox, Southpaw, or even a mix of the two. On top of this, in the UFC, fighters come from all sorts of backgrounds, Wrestling, muay Thai, Jiu Jitsu. So what really is the best on to go for? This is what the [UFC](https://en.wikipedia.org/wiki/UFC_1) was initially set up to answer, collecting the crème de la crème from a variety of disciplines and squaring them off. After a night of intense action and ferocious competition it was concluded, Jiu Jitsu is the best of the best. So....problem solved, let's go home. Well not so fast. As the wise leader of the fighter people, Chael Sonnen, [says](https://www.youtube.com/watch?v=WR_vt2ftIGQ) that's a thing of the past. Fighters nowadays are skilled in all aspects, it's no longer good enough to come in as a striking specialist or a one trick pony grappler. Even the man many say is the greatest of all time, [Khabib Nurmagomedov](https://en.wikipedia.org/wiki/Khabib_Nurmagomedov), renowned for his unparalelled wrestling skills, is still a master striker, who can forget [that](https://www.youtube.com/watch?v=8ftcIKvL4Ic) overhand right cracking McGregor at his own game. Given this, it results in an interesting question, is there really one sport that beats out the others, or are jack-of-all-trades the real kings?
 
-## Data
+## Data Collection and Cleaning
 
 The data for this work was taken from the [UFC Website](http://ufcstats.com/event-details/6597b611f1c32555) containing all of the fights up to the end of 2020 (mainly because a lot of this was done over my Christmas holidays!). We have further combined this with individual fighter data for features such as Weight and Height. This was collected again from the UFC Website, but this time from the [individual fighters database](http://ufcstats.com/statistics/fighters). Having data all in one place and easily collectible was very useful and the main reason why data from other organisations, such as [Bellator](http://www.bellator.com) was not included. This could be something to do in the future to further improve the analysis performed. Overall, the UFC is seen as the most competitive and elite fighting organisation in the world, with the UFC Champions often considered as the best in the business. Given this, I am comfortable that the sample of data that I have collected is representative of fighters because they are considered the best in the world and there is no clear sampling bias, where for example the UFC is only recruiting knock-out artists. They want those who win, regardless of how they do so.
 
@@ -55,3 +58,16 @@ An idea that recently crept in as a result of both [Chael Sonnen](https://www.yo
 All of these features were added and then a difference was taken between the fighter and their opponent. This differences helps to put the statistics into perspective for the individual fights, rather than comparing absolute figures. An expansion of this idea could be to normalize each of the figures by the number of fights, giving stats per fight. This would reduce the bias for a fight who has had more fights, such as [Donald Cerrone](https://en.wikipedia.org/wiki/Donald_Cerrone) compared to someone newer. Past fights was also included to remove any variation in results that this might cause.
 
 Finally, a nice easy win for the data cleaning portion of this project. A simple join bring it all together, adding simple physical stats like Reach and Height. Love it.
+
+## Data Inspection
+
+![alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
+
+
+## The Reach Advantage
+
+
+
+## Styles Make Fights
+
+
