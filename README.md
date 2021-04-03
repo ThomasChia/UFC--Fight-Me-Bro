@@ -61,7 +61,7 @@ Finally, a nice easy win for the data cleaning portion of this project. A simple
 
 ## Data Inspection
 
-![alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
+![Correlation Matrix](Images/test-UFC-corr-map.png?raw=true "Correlation Matrix")
 
 
 ## The Reach Advantage
