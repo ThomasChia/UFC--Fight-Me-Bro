@@ -61,6 +61,7 @@ Finally, a nice easy win for the data cleaning portion of this project. A simple
 
 ## Data Inspection
 
+#### Correlation Matrix
 ![Correlation Matrix](Images/test-UFC-corr-map.png?raw=true "Correlation Matrix")
 
 
