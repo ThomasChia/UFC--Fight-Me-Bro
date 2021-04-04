@@ -269,13 +269,13 @@ How do strikers do?
 fig = plt.figure(figsize=(10,5))
 sns.countplot(strikers['Type_O'], hue = strikers['Outcome'])
 ~~~
-![Type Differences - Striker](Images/UFC-type-differences-Striker.png?raw=true "Type Differences - Striker")
+![Type Differences - Striker](Images/UFC-type-differences-Strikers.png?raw=true "Type Differences - Striker")
 
 ~~~
 plt.figure(figsize=(10,5))
 sns.countplot(grapplers['Type_O'], hue = grapplers['Outcome'])
 ~~~
-![Type Differences - Grappler](Images/UFC-type-differences-Grappler.png?raw=true "Type Differences - Grappler")
+![Type Differences - Grappler](Images/UFC-type-differences-Grapplers.png?raw=true "Type Differences - Grappler")
 
 
 ## What Actually Matters?
