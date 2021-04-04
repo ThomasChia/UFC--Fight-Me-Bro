@@ -74,7 +74,7 @@ Finally, a nice easy win for the data cleaning portion of this project. A simple
 
 ![Stance Differences](Images/UFC-stance-differences.png?raw=true "Stance Differences")
 
-![Stance Differences - Orthodox](Images/UFC-stance-differences-Ortodox.png?raw=true "Stance Differences - Orthodox")
+![Stance Differences - Orthodox](Images/UFC-stance-differences-Orthodox.png?raw=true "Stance Differences - Orthodox")
 
 ![Stance Differences - Southpaw](Images/UFC-stance-differences-Southpaw.png?raw=true "Stance Differences - Southpaw")
 
