@@ -22,6 +22,7 @@ Things to look at:
 * [Data Inspection](#data-inspection)
 * [The Reach Advantage](#the-reach-advantage)
 * [Styles Make Fights](#styles-make-fights)
+* [What Actually Matters?](#what-actually-matters)
 
 
 ## Introduction
@@ -62,6 +63,11 @@ Finally, a nice easy win for the data cleaning portion of this project. A simple
 ## Data Inspection
 
 #### Correlation Matrix
+Plotting the correlation matrix.
+~~~
+fig = plt.figure(figsize=(16,9))
+sns.heatmap(data.corr(), annot=False, linewidths = 1, cmap="coolwarm", linecolor="k")
+~~~
 ![Correlation Matrix](Images/test-UFC-corr-map.png?raw=true "Correlation Matrix")
 
 
@@ -72,14 +78,210 @@ Finally, a nice easy win for the data cleaning portion of this project. A simple
 
 ## Styles Make Fights
 
+### So, What's Your Stance?
+
+~~~
+fig = plt.figure(figsize=(10,5))
+sns.countplot(data['Stance_F'], hue = data['Outcome'])
+~~~
 ![Stance Differences](Images/UFC-stance-differences.png?raw=true "Stance Differences")
 
+~~~
+fig = plt.figure(figsize=(10,5))
+
+ortodox = data[data['Stance_F'] == 'Orthodox']
+sns.countplot(ortodox['Stance_O'], hue = ortodox['Outcome'])
+~~~
 ![Stance Differences - Orthodox](Images/UFC-stance-differences-Orthodox.png?raw=true "Stance Differences - Orthodox")
 
+~~~
+fig = plt.figure(figsize=(10,5))
+
+southpaw = data[data['Stance_F'] == 'Southpaw']
+sns.countplot(southpaw['Stance_O'], hue = southpaw['Outcome'])
+~~~
 ![Stance Differences - Southpaw](Images/UFC-stance-differences-Southpaw.png?raw=true "Stance Differences - Southpaw")
 
+~~~
+fig = plt.figure(figsize=(10,5))
+
+switch = data[data['Stance_F'] == 'Switch']
+sns.countplot(switch['Stance_O'], hue = switch['Outcome'])
+~~~
 ![Stance Differences - Switch](Images/UFC-stance-differences-Switch.png?raw=true "Stance Differences - Switch")
 
+~~~
+fig = plt.figure(figsize=(10,5))
+
+a = np.random.binomial(100, 0.5, 100000)
+sns.countplot(a)
+~~~
 ![Binomial Distribution](Images/Binomial-Distribution.png?raw=true "Binomial Distribution")
+
+~~~
+southpaw_win_v_orthodox = southpaw[(southpaw['Outcome'] == 1) & (southpaw['Stance_O'] == 'Orthodox')]
+southpaw_loss_v_orthodox = southpaw[(southpaw['Outcome'] == 0) & (southpaw['Stance_O'] == 'Orthodox')]
+percentage_southpaw_win_v_orthodox = (len(southpaw_win_v_orthodox) / 
+                        (len(southpaw_win_v_orthodox) + len(southpaw_loss_v_orthodox)))
+
+print('Southpaw wins vs Othodox', len(southpaw_win_v_orthodox))
+print('Southpaw losses vs Othodox', len(southpaw_loss_v_orthodox))
+print('Percentage won:', round(percentage_southpaw_win_v_orthodox * 100,2), '%')
+~~~
+Southpaw wins vs Othodox 503
+Southpaw losses vs Othodox 453
+Percentage won: 52.62 %
+
+~~~
+switch_win_v_orthodox = switch[(switch['Outcome'] == 1) & (switch['Stance_O'] == 'Orthodox')]
+switch_loss_v_orthodox = switch[(switch['Outcome'] == 0) & (switch['Stance_O'] == 'Orthodox')]
+
+print('Switch wins vs Othodox', len(switch_win_v_orthodox))
+print('Switch losses vs Othodox', len(switch_loss_v_orthodox))
+print('Percentage won:', round((len(switch_win_v_orthodox) / 
+                        (len(switch_win_v_orthodox) + len(switch_loss_v_orthodox))) * 100,2), '%')
+~~~
+Switch wins vs Othodox 85
+Switch losses vs Othodox 72
+Percentage won: 54.14 %
+
+Need to work out which of these is more statistically significant. The plan to do this is to look at which is more statistically significant (less likely) compared to a standard binomial expansion, with n = n and p = 0.5.
+
+~~~
+total_southpaw_vs_orthodox = len(southpaw_win_v_orthodox) + len(southpaw_loss_v_orthodox)
+
+binomial_southpaw = np.random.binomial(total_southpaw_vs_orthodox, 0.5, 1000000)
+print('Probability of seeing observed result:', 
+      round((sum(binomial_southpaw >= len(southpaw_win_v_orthodox)) / len(binomial_southpaw)) * 100, 3), '%')
+~~~
+Probability of seeing observed result: 5.694 %
+
+~~~
+total_switch_vs_orthodox = len(switch_win_v_orthodox) + len(switch_loss_v_orthodox)
+
+binomial_switch = np.random.binomial(total_switch_vs_orthodox, 0.5, 1000000)
+print('Probability of seeing observed result:', 
+      round((sum(binomial_switch >= len(switch_win_v_orthodox)) / len(binomial_switch)) * 100, 3), '%')
+~~~
+Probability of seeing observed result: 16.972 %
+
+~~~
+total_switch_vs_orthodox = len(switch_win_v_orthodox) + len(switch_loss_v_orthodox)
+
+binomial_switch = np.random.binomial(total_switch_vs_orthodox, percentage_southpaw_win_v_orthodox, 1000000)
+print('Probability of seeing observed result:', 
+      round((sum(binomial_switch >= len(switch_win_v_orthodox)) / len(binomial_switch)) * 100, 3), '%')
+~~~
+Probability of seeing observed result: 38.104 %
+
+### Ground and Pound or Knock-Out Artist?
+There is no direct feature to say if someone is mainly a striker or a grappler, or even a combination between the two. However, it would be reasonable to assume that strikers would tend to have more finishes on their feet (more KDs and more STRs) and grapplers would have more finishes on the ground (SUBs and TDs). Therefore, a decent proxy might be to compare how fighters with more grappler heavy stats does against fighters with more striking heavy stats, to see which does better and which might be the preferred style if you had to choose one.
+
+One potential downfall of this might be that fighters nowadays aren't trained in a specific discipline and so the populations that we are comparing might not represent what how world-class boxers would really do against world-class wrestlers.
+
+~~~
+data_types_of_fighter_full = pd.read_csv(address)
+data_types_of_fighter_full = data_types_of_fighter_full.drop(['Unnamed: 0', 'index', 'Unnamed: 0.1_x',
+                  'Unnamed: 0.1_y', 'Date_Adj', 'Unnamed: 0.1'
+                 ], axis = 1)
+~~~
+We can group based on a couple of different columns. Either, the method of finish, or the total number of past 
+actions (strikes, takedowns, submissions, knockdowns). We will look at both and initially, the past actions as this is what the fighter does most, compared to just how the match was finished. Also, there is a smaller sample size when looking at the method of finish as it only gives detail on the winner, cutting the population in half.
+
+Split fighters into two groups, strikers and grapplers, based on total KD and STR vs total TD and SUBs. Strikes happen more often than SUBs as a SUB usually finishes the match and a TD is very rare. Therefore, grouping based on totals will not work.
+
+There are a couple of ways to solve this, look at comparisons to the average, e.g. if a fighter is below average in STR and above in TD, they are likley a wrestler. However, this could get complicated if a fighter is above average in everything as would be the case for long-standing fighters. Just having more fights will increase your numbers. (Method A)
+
+Another way would be to look the total proportion of STR, KD, TD, and SUBs for the whole dataset and then base the split off how each fighters stats compare to this. This can be quite complicated, but fixes the issues of one fighter having more fights because it will always be out of 100%. (Method B)
+
+A final method would be to normalising the values, so that they are comparable. A one unit increase in STR is comparable to a one unit increase in TD. (Method C)
+
+We will attempt Methods B and C, mainly to practice data manipulation, and secondly to compare which might give a better split of the population. Initially I think that Method C would be best.
+
+~~~
+data_types_of_fighter = data_types_of_fighter_full[['STR_F', 'TD_F', 'KD_F', 'SUB_F']]
+data_types_of_fighter.dropna(inplace = True)
+
+for col in data_types_of_fighter.columns:
+    data_types_of_fighter[col] = data_types_of_fighter[col].apply(lambda x: str(x))
+    data_types_of_fighter[col] = data_types_of_fighter[col].apply(lambda x: x.replace('--', '0'))
+    data_types_of_fighter[col] = data_types_of_fighter[col].apply(lambda x: float(x))
+    
+data_proportions = data_types_of_fighter.sum()
+data_proportions
+types = ['STR', 'TD', 'KD', 'SUB']
+proportions = {}
+for i in range(0, len(types)):
+    proportions[types[i]] = ((data_proportions[i]) / (data_proportions.sum()))
+    
+~~~
+
+{'STR': 0.9443907404703942,
+ 'TD': 0.0340268379582319,
+ 'KD': 0.00853827427430587,
+ 'SUB': 0.013044147297068025}
+ 
+STR are so dominant and even include strikes on the ground, therefore, it might make sense to eliminate them, and just look at how the fight got to the ground, TDs vs KDs.
+
+~~~
+data_proportions = data_types_of_fighter.sum()
+data_proportions = data_proportions[1:-1]
+types = ['TD', 'KD']
+proportions = {}
+for i in range(0, len(types)):
+    proportions[types[i]] = ((data_proportions[i]) / (data_proportions.sum()))
+~~~
+{'TD': 0.7994067482387839, 'KD': 0.20059325176121617}
+
+~~~
+key_columns = ['KD_F', 'TD_F']
+for col in key_columns:
+    data_types_of_fighter_full[col] = data_types_of_fighter_full[col].apply(lambda x: str(x))
+    data_types_of_fighter_full[col] = data_types_of_fighter_full[col].apply(lambda x: x.replace('--', '0'))
+    data_types_of_fighter_full[col] = data_types_of_fighter_full[col].apply(lambda x: float(x))
+
+data_fighters_group = data_types_of_fighter_full.groupby('Fighter')
+data_fighters_group_trim = data_fighters_group[['TD_F', 'KD_F']].sum()
+
+data_fighters_group_trim['TD_F_Percent'] = (data_fighters_group_trim['TD_F'] /
+                                            (data_fighters_group_trim['TD_F'] + data_fighters_group_trim['KD_F']))
+data_fighters_group_trim.dropna(inplace = True)
+
+data_fighters_group_trim['Type'] = np.where(data_fighters_group_trim['TD_F_Percent'] >= proportions['TD'],
+                                           'Grappler',
+                                           'Striker')
+                                        
+data_fighters_group_trim['Type_O'] = data_fighters_group_trim['Type']
+
+data_types_of_fighter_final = pd.merge(left = data_types_of_fighter_full, right = data_fighters_group_trim['Type'],
+                                        on = 'Fighter', how = 'left')
+data_types_of_fighter_final = pd.merge(left = data_types_of_fighter_final,
+                                       right = data_fighters_group_trim[['Type_O']],
+                                       left_on = 'Opponent', right_on = 'Fighter', how = 'left')
+
+strikers = data_types_of_fighter_final[data_types_of_fighter_final['Type'] == 'Striker']
+grapplers = data_types_of_fighter_final[data_types_of_fighter_final['Type'] == 'Grappler']
+~~~
+
+How do strikers do?
+
+~~~
+fig = plt.figure(figsize=(10,5))
+sns.countplot(strikers['Type_O'], hue = strikers['Outcome'])
+~~~
+![Type Differences - Striker](Images/UFC-type-differences-Striker.png?raw=true "Type Differences - Striker")
+
+~~~
+plt.figure(figsize=(10,5))
+sns.countplot(grapplers['Type_O'], hue = grapplers['Outcome'])
+~~~
+![Type Differences - Grappler](Images/UFC-type-differences-Grappler.png?raw=true "Type Differences - Grappler")
+
+
+## What Actually Matters?
+
+
+
+
 
 
