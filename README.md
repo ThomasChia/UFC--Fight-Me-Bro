@@ -80,6 +80,6 @@ Finally, a nice easy win for the data cleaning portion of this project. A simple
 
 ![Stance Differences - Switch](Images/UFC-stance-differences-Switch.png?raw=true "Stance Differences - Switch")
 
-![Ranodm Binomial](Images/Binomial Distribution.png?raw=true "Binomial Distribution")
+![Random Binomial](Images/Binomial Distribution.png?raw=true "Binomial Distribution")
 
 
