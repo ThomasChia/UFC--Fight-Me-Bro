@@ -66,9 +66,20 @@ Finally, a nice easy win for the data cleaning portion of this project. A simple
 
 
 ## The Reach Advantage
+![Reach Differences](Images/UFC-reach-dif.png?raw=true "Reach Differences")
 
 
 
 ## Styles Make Fights
+
+![Stance Differences](Images/UFC-stance-differences.png?raw=true "Stance Differences")
+
+![Stance Differences - Orthodox](Images/UFC-stance-differences-Ortodox.png?raw=true "Stance Differences - Orthodox")
+
+![Stance Differences - Southpaw](Images/UFC-stance-differences-Southpaw.png?raw=true "Stance Differences - Southpaw")
+
+![Stance Differences - Switch](Images/UFC-stance-differences-Switch.png?raw=true "Stance Differences - Switch")
+
+![Ranodm Binomial](Images/Binomial Distribution.png?raw=true "Binomial Distribution")
 
 
