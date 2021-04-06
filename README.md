@@ -66,19 +66,21 @@ Finally, a nice easy win for the data cleaning portion of this project. A simple
 
 Loading in the data, there is a variety of different variables that need explaining. A classic table looks good enough for this job. Here we have summaried what variables have been loaded in after the cleaning and manipulation above. We will not use all of these variables and some will be dropped. However, better to start with a lot and narrow down than take it all away and be left with too little. There's probably some sort of motivational quote in there, unfortunately all I can think of is a quote about me adding too much milk when baking with my mum.
 
-Variable | Description | Why?
----------|-------------|--------
-average_odds_F | Average Odds for the Fighter prior to the fight. Odds averaged from available data | This will help to capture some of the additional unobserved factors that are not contained within standard statistics.
-average_odds_O | Average Odds for the Opponent prior to the fight. Odds averaged from available data | This will help to capture some of the additional unobserved factors that are not contained within standard statistics.
-past_W_%_F | The Fighter's past win percentage (fights won / total fights) | This gives information around past performance that should give an indication of how they will perform in the future.
-past_L_%_F | The Fighter's past loss percentage (fights lost / total fights) | This gives information around past performance that should give an indication of how they will perform in the future.
-past_W_%_O | The Opponent's past win percentage (fights won / total fights) | This gives information around past performance of the opponent that should give an indication of how they will perform in the future, in particular, against the current fighter.
-past_L_%_O | The Opponent's past loss percentage (fights lost / total fights) | This gives information around past performance of the opponent that should give an indication of how they will perform in the future, in particular, against the current fighter.
-past_ROUND_F | Number of rounds the Fighter has fought in their career | This will help to give an indication of the type of fighter e.g. Knock-Out artist. The lower this is, paired with a good 'past_W_%', we would expect to be a positive indicator for future performance. Further, the higher this figure, the more damage a fighter is likely to have sustained in their career, resulting in a negative effect on future performance. However, an argument could be made that the greater this figure the better as the fighter is more experienced having had more rounds, and so will perform better.
-past_ROUND_O | Number of rounds the Opponent has fought in their career | This will help to give an indication of the type of fighter e.g. Knock-Out artist. The lower this is, paired with a good 'past_W_%', we would expect to be a positive indicator for future performance. Further, the higher this figure, the more damage a fighter is likely to have sustained in their career, resulting in a negative effect on future performance. However, an argument could be made that the greater this figure the better as the fighter is more experienced having had more rounds, and so will perform better.
-past_PERF_F | Number of past Performance of the Night Bonuses earned by the Fighter | The more Performance of the Night bonuses earned by the fighter should give an indication that they are a better fighter. This is a subjective measure, however, like the 'average_odds' this might help to capture unobserved abilities of fighters.
-past_PERF_O | Number of past Performance of the Night Bonuses earned by the Opponent | The more Performance of the Night bonuses earned by the fighter should give an indication that they are a better fighter. This is a subjective measure, however, like the 'average_odds' this might help to capture unobserved abilities of fighters.
-past_SECONDS_F | Total seconds that the Fighter has fought in their career | This will help to give an indication of the type of fighter e.g. Knock-Out artist. The lower this is, paired with a good 'past_W_%', we would expect to be a positive indicator for future performance. Further, the higher this figure, the more damage a fighter is likely to have sustained in their career, resulting in a negative effect on future performance. However, an argument could be made that the greater this figure the better as the fighter is more experienced having had more rounds, and so will perform better. This can act as a most
+<div class="foo">
+
+| Variable | Description | Why? |
+|---|---|---|
+average_odds_F | Average Odds for the Fighter prior to the fight. Odds averaged from available data | This will help to capture some of the additional unobserved factors that are not contained within standard statistics.|
+average_odds_O | Average Odds for the Opponent prior to the fight. Odds averaged from available data | This will help to capture some of the additional unobserved factors that are not contained within standard statistics.|
+past_W_%_F | The Fighter's past win percentage (fights won / total fights) | This gives information around past performance that should give an indication of how they will perform in the future.|
+past_L_%_F | The Fighter's past loss percentage (fights lost / total fights) | This gives information around past performance that should give an indication of how they will perform in the future.|
+past_W_%_O | The Opponent's past win percentage (fights won / total fights) | This gives information around past performance of the opponent that should give an indication of how they will perform in the future, in particular, against the current fighter.|
+past_L_%_O | The Opponent's past loss percentage (fights lost / total fights) | This gives information around past performance of the opponent that should give an indication of how they will perform in the future, in particular, against the current fighter.|
+past_ROUND_F | Number of rounds the Fighter has fought in their career | This will help to give an indication of the type of fighter e.g. Knock-Out artist. The lower this is, paired with a good 'past_W_%', we would expect to be a positive indicator for future performance. Further, the higher this figure, the more damage a fighter is likely to have sustained in their career, resulting in a negative effect on future performance. However, an argument could be made that the greater this figure the better as the fighter is more experienced having had more rounds, and so will perform better.|
+past_ROUND_O | Number of rounds the Opponent has fought in their career | This will help to give an indication of the type of fighter e.g. Knock-Out artist. The lower this is, paired with a good 'past_W_%', we would expect to be a positive indicator for future performance. Further, the higher this figure, the more damage a fighter is likely to have sustained in their career, resulting in a negative effect on future performance. However, an argument could be made that the greater this figure the better as the fighter is more experienced having had more rounds, and so will perform better.|
+past_PERF_F | Number of past Performance of the Night Bonuses earned by the Fighter | The more Performance of the Night bonuses earned by the fighter should give an indication that they are a better fighter. This is a subjective measure, however, like the 'average_odds' this might help to capture unobserved abilities of fighters.|
+past_PERF_O | Number of past Performance of the Night Bonuses earned by the Opponent | The more Performance of the Night bonuses earned by the fighter should give an indication that they are a better fighter. This is a subjective measure, however, like the 'average_odds' this might help to capture unobserved abilities of fighters.|
+past_SECONDS_F | Total seconds that the Fighter has fought in their career | This will help to give an indication of the type of fighter e.g. Knock-Out artist. The lower this is, paired with a good 'past_W_%', we would expect to be a positive indicator for future performance. Further, the higher this figure, the more damage a fighter is likely to have sustained in their career, resulting in a negative effect on future performance. However, an argument could be made that the greater this figure the better as the fighter is more experienced having had more rounds, and so will perform better. This can act as a most|
 past_SECONDS_O |  |
 days_since_last_fight_F |  |
 days_since_last_fight_O |  |
@@ -100,6 +102,8 @@ TD_per_min |  |
 KD_per_min |  |
 SUB_per_min |  |
 STR_per_min |  |
+
+</div>
 
 Plotting the correlation matrix.
 ~~~
