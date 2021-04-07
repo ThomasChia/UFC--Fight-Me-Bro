@@ -68,7 +68,7 @@ Loading in the data, there is a variety of different variables that need explain
 
 
 Variable | Description | Why? |
----------|-------------|------|
+---------|-----------------|------|
 average_odds_F | Average Odds for the Fighter prior to the fight. Odds averaged from available data | This will help to capture some of the additional unobserved factors that are not contained within standard statistics.|
 average_odds_O | Average Odds for the Opponent prior to the fight. Odds averaged from available data | This will help to capture some of the additional unobserved factors that are not contained within standard statistics.|
 past_W_%_F | The Fighter's past win percentage (fights won / total fights) | This gives information around past performance that should give an indication of how they will perform in the future.|
