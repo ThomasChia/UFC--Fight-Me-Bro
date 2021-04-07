@@ -66,10 +66,9 @@ Finally, a nice easy win for the data cleaning portion of this project. A simple
 
 Loading in the data, there is a variety of different variables that need explaining. A classic table looks good enough for this job. Here we have summaried what variables have been loaded in after the cleaning and manipulation above. We will not use all of these variables and some will be dropped. However, better to start with a lot and narrow down than take it all away and be left with too little. There's probably some sort of motivational quote in there, unfortunately all I can think of is a quote about me adding too much milk when baking with my mum.
 
-<div class="foo">
 
-| Variable | Description | Why? |
-|---|---|---|
+Variable | Description | Why? |
+---------|-------------|------|
 average_odds_F | Average Odds for the Fighter prior to the fight. Odds averaged from available data | This will help to capture some of the additional unobserved factors that are not contained within standard statistics.|
 average_odds_O | Average Odds for the Opponent prior to the fight. Odds averaged from available data | This will help to capture some of the additional unobserved factors that are not contained within standard statistics.|
 past_W_%_F | The Fighter's past win percentage (fights won / total fights) | This gives information around past performance that should give an indication of how they will perform in the future.|
@@ -80,30 +79,29 @@ past_ROUND_F | Number of rounds the Fighter has fought in their career | This wi
 past_ROUND_O | Number of rounds the Opponent has fought in their career | This will help to give an indication of the type of fighter e.g. Knock-Out artist. The lower this is, paired with a good 'past_W_%', we would expect to be a positive indicator for future performance. Further, the higher this figure, the more damage a fighter is likely to have sustained in their career, resulting in a negative effect on future performance. However, an argument could be made that the greater this figure the better as the fighter is more experienced having had more rounds, and so will perform better.|
 past_PERF_F | Number of past Performance of the Night Bonuses earned by the Fighter | The more Performance of the Night bonuses earned by the fighter should give an indication that they are a better fighter. This is a subjective measure, however, like the 'average_odds' this might help to capture unobserved abilities of fighters.|
 past_PERF_O | Number of past Performance of the Night Bonuses earned by the Opponent | The more Performance of the Night bonuses earned by the fighter should give an indication that they are a better fighter. This is a subjective measure, however, like the 'average_odds' this might help to capture unobserved abilities of fighters.|
-past_SECONDS_F | Total seconds that the Fighter has fought in their career | This will help to give an indication of the type of fighter e.g. Knock-Out artist. The lower this is, paired with a good 'past_W_%', we would expect to be a positive indicator for future performance. Further, the higher this figure, the more damage a fighter is likely to have sustained in their career, resulting in a negative effect on future performance. However, an argument could be made that the greater this figure the better as the fighter is more experienced having had more rounds, and so will perform better. This can act as a most|
-past_SECONDS_O |  |
-days_since_last_fight_F |  |
-days_since_last_fight_O |  |
-Outcome |  |
-TD_dif |  |
-KD_dif |  |
-SUB_dif |  |
-WT_dif |  |
-HT_dif |  |
-REACH_dif |  |
-ELO_dif |  |
-Days_dif |  |
-Rounds_dif |  |
-Perf_of_Night_dif |  |
-Seconds_in_Ring_dif |  |
-Win_dif |  |
-Loss_dif |  |
-TD_per_min |  |
-KD_per_min |  |
-SUB_per_min |  |
-STR_per_min |  |
+past_SECONDS_F | Total seconds that the Fighter has fought in their career | This will help to give an indication of the type of fighter e.g. Knock-Out artist. The lower this is, paired with a good 'past_W_%', we would expect to be a positive indicator for future performance. Further, the higher this figure, the more damage a fighter is likely to have sustained in their career, resulting in a negative effect on future performance. However, an argument could be made that the greater this figure the better as the fighter is more experienced having had more rounds, and so will perform better. This can act as a more detailed version of the 'past_ROUND' variable.|
+past_SECONDS_O | Total seconds that the Opponent has fought in their career | This will help to give an indication of the type of fighter e.g. Knock-Out artist. The lower this is, paired with a good 'past_W_%', we would expect to be a positive indicator for future performance. Further, the higher this figure, the more damage a fighter is likely to have sustained in their career, resulting in a negative effect on future performance. However, an argument could be made that the greater this figure the better as the fighter is more experienced having had more rounds, and so will perform better. This can act as a more detailed version of the 'past_ROUND' variable.|
+days_since_last_fight_F | Total days since the Fighter's previous fight | This will help to see how recovery impacts performance as well as investigating if 'Ring Rust' is a real concept and visible in the data. It is expected that this variable will have a quadratic relationship as some recovery helps, but too long not fighting would have a negative impact.|
+days_since_last_fight_O | Total days since the Opponent's previous fight | This will help to see how recovery impacts performance as well as investigating if 'Ring Rust' is a real concept and visible in the data. It is expected that this variable will have a quadratic relationship as some recovery helps, but too long not fighting would have a negative impact.|
+Outcome | Whether the Fighter won or lost the fight (1 or 0 respectively) | This will be the main dependent variable in our investigations. |
+TD_dif | The difference in the number of past Takedowns between the Fighter and the Opponent | This will be useful when determining the type of fighter (striker or grappler) and investigating the impact of this on a fight.
+KD_dif | The difference in the number of past Knock Downs between the Fighter and the Opponent | This will be useful when determining the type of fighter (striker or grappler) and investigating the impact of this on a fight.
+SUB_dif | The difference in the number of past Submissions between the Fighter and the Opponent | This will be useful when determining the type of fighter (striker or grappler) and investigating the impact of this on a fight.
+WT_dif | The difference in Weight between the Fighter and the Opponent | This should be zero for most fights as fighters are limited to different weight classes. However, it might be useful to look at how this difference affects performance in Heavyweight fights were the limit is much larger and some fighters don't even cut any weight before fights.
+HT_dif | The difference in Height between the Fighter and the Opponent | This is one of the main statistics that is displayed before fights and so this would lead us to believe that it should be important in determining a fight's outcome. This will be looked into further as part of our analysis. It is worth noting that the Height variable is likely to be correlated to the Reach variable as taller individuals tend to have longer reaches. Therefore, to reduce multicollinearity in any regressions that we run, one of these variables will likely be removed.
+REACH_dif | The difference in Reach between the Fighter and the Opponent | This is one of the main statistics that is displayed before fights and so this would lead us to believe that it should be important in determining a fight's outcome. This makes sense as a longer reach means a fighter can hit their opponent without bieng in range for themselves to be hit. It is worth noting that the Reach variable is likely to be correlated to the Height variable as taller individuals tend to have longer reaches. Therefore, to reduce multicollinearity in any regressions that we run, one of these variables will likely be removed.
+ELO_dif | The difference in ELO Ratings between the Fighter and the Opponent | The ELO was calculated using the [standard formula](https://en.wikipedia.org/wiki/Elo_rating_system#Performance_rating) that we borrowed from chess. There is scope to adjust this and make it better, for example adding a penatly the more fights and individual has to account for accumulated damaged. However, in reality this might work in reverse where more fights is a better thing to account for more experience. Definitely something to be investigated further.
+Days_dif | The difference in the number of days since the last fight. Calculated by days_since_last_fight_F - days_since_last_fight_O | See above rationale for 'days_since_last_fight' variables.
+Rounds_dif | The difference in the number of rounds fought in the Fighter's career vs. their Opponent. Calculated by past_ROUND_F - past_ROUND_O | See above rationale for 'past_ROUND' variables.
+Perf_of_Night_dif | The difference in the number of Performance of the Night bonuses between the Fighter and their Opponent. Calculated by past_PERF_F - past_PERF_O | See above rationale for 'past_PERF' variables.
+Seconds_in_Ring_dif | The difference in the number of seconds fought in the Fighter's career vs. their Opponent. Calculated by past_SECONDS_F - past_SECONDS_O | See above rationale for 'past_SECONDS' variables.
+Win_dif | The difference in the number of wins between the Fighter and their Opponent | The more wins a fighter has in the career should indicate that they are a good performer as they have demonstrated this in prevoius matches. This is likely correlated with 'past_W_%' and 'ELO_dif' variables as they both come from the past win record of the Fighter and Opponent. Therefore, some of these will likely need to be removed prior to running Regressions to avoid multicollinearity.
+Loss_dif | The difference in the number of losses between the Fighter and their Opponent | The more losses a fighter has in the career should indicate that they are a poor performer as they have demonstrated this in prevoius matches. This is likely correlated with 'past_L_%' and 'ELO_dif' variables as they both come from the past loss record of the Fighter and Opponent. Therefore, some of these will likely need to be removed prior to running Regressions to avoid multicollinearity.
+TD_per_min | The average number of Takedowns per minute in the Fighter's career. This is calculated from the number of Takedowns in their career and the total time spent in the ring | See above rationale for 'TD_dif' variables.
+KD_per_min | The average number of Knockdowns per minute in the Fighter's career. This is calculated from the number of Knockdowns in their career and the total time spent in the ring | See above rationale for 'KD_dif' variables.
+SUB_per_min | The average number of Submissions per minute in the Fighter's career. This is calculated from the number of Submissions in their career and the total time spent in the ring | See above rationale for 'SUB_dif' variables.
+STR_per_min | The average number of Strikes per minute in the Fighter's career. This is calculated from the number of Strikes in their career and the total time spent in the ring | See above rationale for 'STR_dif' variables.
 
-</div>
 
 Plotting the correlation matrix.
 ~~~
