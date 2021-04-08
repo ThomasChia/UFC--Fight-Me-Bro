@@ -31,6 +31,8 @@ Unfortunately, I am a small man. As a result, in physical confrontations, it is 
 
 As a result, while building up my cardio engine to race away from potential danger, I need an alternative strategy. Building such an engine might take a while too since running is basically just slamming your knees into concrete one after the other, not really my idea of a fun time. Therefore, I have done some analysis! I have looked into what makes the best fighter in an effort to mold myself into such a precense to terryify opponents, scaring them away. Also, it's a nice investigation to see what sort of natural benefits are brought by different body types. We always see Fighters' Reach and Height differences before a fight, but do they really mean anything? Well, it's time to find out.
 
+The [UFC](https://www.ufc.com/) is a cage fighting organisation that hosts 1 v 1 matches for either 3 or 5 rounds of 5 minutes each. Winner can be declared by Knock-Out (referee decision), Submission (opponent taps), or Decision (judges scorecards at the end of the match).
+
 
 ## Past Literature
 
@@ -102,13 +104,32 @@ KD_per_min | The average number of Knockdowns per minute in the Fighter's career
 SUB_per_min | The average number of Submissions per minute in the Fighter's career. This is calculated from the number of Submissions in their career and the total time spent in the ring | See above rationale for 'SUB_dif' variables.
 STR_per_min | The average number of Strikes per minute in the Fighter's career. This is calculated from the number of Strikes in their career and the total time spent in the ring | See above rationale for 'STR_dif' variables.
 
+While we have some initial hypothesis laid out in the review of past literature, it will be good to just take a general look at the data to get a feel of what is going on there. Therefore, first, as always, some summary statistics.
 
-Plotting the correlation matrix.
+ADD SUMMARY STATISTICS
+
+NUMBER OF FIGHTERS
+NUMBER OF FIGHTS
+AVERAGE AGE OF FIGHTERS
+DISTANCE OF FIGHTS
+WIN METHODS
+NUMBER OF EVENTS
+EVENTS OVER TIME
+
+Next it will be useful to see how all of these variables interact with each other. What seems to be linked with what? To do this, we will use our trusty correlation matrix. This will help us to understand our data better and the connections between variables, as well as give an indication of potential causes of multicollinearity later down the line.
+
+*Plotting the correlation matrix*
 ~~~
 fig = plt.figure(figsize=(16,9))
 sns.heatmap(data.corr(), annot=False, linewidths = 1, cmap="coolwarm", linecolor="k")
 ~~~
 ![Correlation Matrix](Images/test-UFC-corr-map.png?raw=true "Correlation Matrix")
+
+The main thing that stands out is the large red section in the top left of the plot. These are all of the 'past' variables. All being correlated makes sense since Rounds and Seconds are calculated from the same underlying metrics and the more fights a Fighter has, the more likely they are to win Performance of the Night bonuses. Additionally, this last link works in reverse with more Performance of the Night bonuses leading to more appearances as you have likely performed well to earn the extra credit. Simialr reasoning can be used to explain the correlation in the difference metrics relating to time in the ring.
+
+What was more surprising intially was the correlation between the fighting metrics, like Knockdowns and Submissions, and the 'past' timing variables. This can be seen in the middle left of the heatmap. However, after some consideration, this too makes sense. Being metrics of events that happen in fights, the more fights a fighter has had, the more punches, kicks, and takedowns a fighter is likely to have made, resulting in a connection between these variables. Any of the 'past' variables will give an implicit indication of the length of a Fighter's career and so will have some correlation.
+
+Looking at the correlations with the Outcome variable is a much more stark comparison.
 
 
 ## The Reach Advantage
