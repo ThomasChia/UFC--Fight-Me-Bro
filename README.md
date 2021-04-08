@@ -64,7 +64,7 @@ Finally, a nice easy win for the data cleaning portion of this project. A simple
 
 ## Data Inspection
 
-#### Correlation Matrix
+#### Variables
 
 Loading in the data, there is a variety of different variables that need explaining. A classic table looks good enough for this job. Here we have summaried what variables have been loaded in after the cleaning and manipulation above. We will not use all of these variables and some will be dropped. However, better to start with a lot and narrow down than take it all away and be left with too little. There's probably some sort of motivational quote in there, unfortunately all I can think of is a quote about me adding too much milk when baking with my mum.
 
@@ -104,6 +104,8 @@ KD_per_min | The average number of Knockdowns per minute in the Fighter's career
 SUB_per_min | The average number of Submissions per minute in the Fighter's career. This is calculated from the number of Submissions in their career and the total time spent in the ring | See above rationale for 'SUB_dif' variables.
 STR_per_min | The average number of Strikes per minute in the Fighter's career. This is calculated from the number of Strikes in their career and the total time spent in the ring | See above rationale for 'STR_dif' variables.
 
+#### Everyone's Favourite - Summary Statistics
+
 While we have some initial hypothesis laid out in the review of past literature, it will be good to just take a general look at the data to get a feel of what is going on there. Therefore, first, as always, some summary statistics.
 
 ADD SUMMARY STATISTICS
@@ -115,6 +117,8 @@ DISTANCE OF FIGHTS
 WIN METHODS
 NUMBER OF EVENTS
 EVENTS OVER TIME
+
+#### Correlation Matrix
 
 Next it will be useful to see how all of these variables interact with each other. What seems to be linked with what? To do this, we will use our trusty correlation matrix. This will help us to understand our data better and the connections between variables, as well as give an indication of potential causes of multicollinearity later down the line.
 
