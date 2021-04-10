@@ -163,14 +163,14 @@ Our population is well above 30, so we can use a z-test. If this were not the ca
 For our null hypothesis, we will have that there is no difference between the mean Reach difference for Winners and Losers. Or stating another way, that having a longer or shorter reach has no effect on the Outcome of a fights. We will have this as a two tailed test, as while we might expect a longer reach to be better as you can hit without being touched, a smaller reach might acutally be better. A fighter would be more nimble and potentially have greater control over their limbs as they are closer to the body.
 
 
-&mu;<sub>(0) = 0 
+H<sub>(0): &mu; = 0 
 
-&mu;<sub>(1) ≠ 0
+H<sub>(1): &mu; ≠ 0
 
 
 Quickly looking at the average Reach difference, we see that this is 0.2 inches, so mostly fighters line up with the same wingspan. This makes sense since they are in the same weightclass and so would be expected to be of similar height. Moving on to performing the test, we use the following code:
 
-'''
+~~~
 ztest ,pval = stests.ztest(winners['REACH_dif'], x2 = losers['REACH_dif'], value=0, alternative = 'two-sided')
 print(float(pval))
 
@@ -178,9 +178,9 @@ if pval<0.05:
     print("reject null hypothesis")
 else:
     print("accept null hypothesis")
-'''
+~~~
 
-This gives us a p-value of 1.7237261348489579e-06, which to any normal person is 0. Therefore, we reject the null hypthosis and can conclude that Reach does play a difference in fights. Translating this into something useful for myself, always fight people smaller than you. Sweet, onto the next item.....
+This gives us a p-value of 1.7237261348489579e-06, which to any normal person is 0. Therefore, we reject the null hypthosis and can conclude that Reach does play a difference in fights. Translating this into something useful for myself, always fight people smaller than you. That or stretch myself with one of those medival torture machines. Sweet, onto the next item.....
 
 
 ## Styles Make Fights
