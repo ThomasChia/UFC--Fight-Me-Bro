@@ -14,6 +14,8 @@ Things to look at:
 - Regression to have a look at the impact of reach on likelihood of winning
 - Add in the machine learning models from betting.
 
+h;<sub>&theta;</sub>(x) = &theta;<sub>o</sub> x + &theta;<sub>1</sub>x
+
 
 ## Table of contents
 * [Introduction](#introduction)
@@ -143,9 +145,42 @@ Going back to our early hypotheses, it doesn't look like there is much correlati
 
 ## The Reach Advantage
 
+So, into testing the hypotheses. Up first we have one of the top things that pops up when a fighter's stats are shown, and one of the main things no one I ask has a clue about its effect. How much does having a longer reach actually affect a fighter's ability?
+
+To look into this, it will be good to initially look at the distribution of Reach differences split by Outcome.
+'''
+sns.distplot(winners['REACH_dif'], label='Winners')
+sns.distplot(losers['REACH_dif'], label='Losers')
+plt.legend()
+'''
 
 ![Reach Differences](Images/UFC-reach-dif.png?raw=true "Reach Differences")
 
+Nice! We have two populations that look almost identical. Fear not though, we can look to see if there is some separation here. For this, we will do a classic hypthosis test, examining if the mean difference in Reach is greater for Winners compared to Losers. Naturally, like most statisticians without an imagination, we will be using a 5% significance level.
+
+Our population is well above 30, so we can use a z-test. If this were not the case a t-test would be more appropriate to account for the resulting increased uncertainty. Graphically, the difference between these two distributions is that the t-distribution has wider tails. Further, from the plot above we can see that the data is normally distributed around the mean, which appears to be roughly 0. The one slight issue with this is the lack of independence between samples. This is because sometimes the same fighter is selected twice as they fight multiple times. However, we have a large number of different fights, so this should not be an issue overall.
+
+For our null hypothesis, we will have that there is no difference between the mean Reach difference for Winners and Losers. Or stating another way, that having a longer or shorter reach has no effect on the Outcome of a fights. We will have this as a two tailed test, as while we might expect a longer reach to be better as you can hit without being touched, a smaller reach might acutally be better. A fighter would be more nimble and potentially have greater control over their limbs as they are closer to the body.
+
+
+&mu;<sub>(0) = 0 
+
+&mu;<sub>(1) ≠ 0
+
+
+Quickly looking at the average Reach difference, we see that this is 0.2 inches, so mostly fighters line up with the same wingspan. This makes sense since they are in the same weightclass and so would be expected to be of similar height. Moving on to performing the test, we use the following code:
+
+'''
+ztest ,pval = stests.ztest(winners['REACH_dif'], x2 = losers['REACH_dif'], value=0, alternative = 'two-sided')
+print(float(pval))
+
+if pval<0.05:
+    print("reject null hypothesis")
+else:
+    print("accept null hypothesis")
+'''
+
+This gives us a p-value of 1.7237261348489579e-06, which to any normal person is 0. Therefore, we reject the null hypthosis and can conclude that Reach does play a difference in fights. Translating this into something useful for myself, always fight people smaller than you. Sweet, onto the next item.....
 
 
 ## Styles Make Fights
