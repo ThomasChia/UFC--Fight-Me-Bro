@@ -148,11 +148,11 @@ Going back to our early hypotheses, it doesn't look like there is much correlati
 So, into testing the hypotheses. Up first we have one of the top things that pops up when a fighter's stats are shown, and one of the main things no one I ask has a clue about its effect. How much does having a longer reach actually affect a fighter's ability?
 
 To look into this, it will be good to initially look at the distribution of Reach differences split by Outcome.
-'''
+~~~
 sns.distplot(winners['REACH_dif'], label='Winners')
 sns.distplot(losers['REACH_dif'], label='Losers')
 plt.legend()
-'''
+~~~
 
 ![Reach Differences](Images/UFC-reach-dif.png?raw=true "Reach Differences")
 
