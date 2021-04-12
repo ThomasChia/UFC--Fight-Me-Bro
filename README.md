@@ -187,11 +187,21 @@ This gives us a p-value of 1.7237261348489579e-06, which to any normal person is
 
 ### So, What's Your Stance?
 
+Discovering Reach has an impact is all well and good, however, that doesn't really give us anything to work on ourselves, or any real direction in becoming the Ultimate Fighter. As much as I hate to admit it, my growing days are behind me. What we need is something more tangible. What stance to use.
+
+One of the first things that you learn in boxing is which stance you are going to fight in, [Orthodox](https://en.wikipedia.org/wiki/Orthodox_stance), with you left hand leading as your jab hand, or [Southpaw](https://en.wikipedia.org/wiki/Southpaw_stance), with your right hand leading as your jab hand. Generally this is decided by whichever is your dominant hand and leading with the other. However, recently there has been [debate](https://www.youtube.com/watch?v=96B8_Vfkxmw) over one simply being more effect than the other. This requires an inspection of the data.
+
+First, let's have a quick look at the overall results from different stances. Is there one clear winner that just always dominates? We will also be able to look at which stance is most popular. Given how this was determined in the past, we woudl expect Orthodox to be the most popular since most individuals are right handed.
+
 ~~~
 fig = plt.figure(figsize=(10,5))
 sns.countplot(data['Stance_F'], hue = data['Outcome'])
 ~~~
 ![Stance Differences](Images/UFC-stance-differences.png?raw=true "Stance Differences")
+
+Sweet, so Orthodox is most popular, as expected. There are also some fighters using a Switch stance, where they change between Orthodox and Southpaw during the fight, see [Klitschko vs. Tyson Fury](https://en.wikipedia.org/wiki/Wladimir_Klitschko_vs._Tyson_Fury) for a great example of this, and some using an Open Stance. Those using an Open Stance is incredibly low, so we will mostly be excluding them from any testing we perform later on. However, it looks like Southpaw and Switch stances are winning more than they are losing...definitely an area for further investigation.
+
+A nice starting place is to look at how each of the stances compares against each other. To do this, we will plot the wins (1) and losses (0) of each stance against all other stance in separate plots too see if any match up particularly well against any of the others.
 
 ~~~
 fig = plt.figure(figsize=(10,5))
@@ -217,6 +227,13 @@ sns.countplot(switch['Stance_O'], hue = switch['Outcome'])
 ~~~
 ![Stance Differences - Switch](Images/UFC-stance-differences-Switch.png?raw=true "Stance Differences - Switch")
 
+
+The immediate point that stands out to me is that Orthodox seems to do worse against both Southpaw and Switch stances. It also gives a first hint that one might be better than the others. A reason for this could be because Orthodox fighters just aren't as used to fighting Southpaws (and Switch) since they are much less prevelant in the population, whereas Southpaws get much more practice at battling Othodox. This level of familiarity and experience might just give them the edge.
+
+But just how different is this difference? Is it significant, or could it really  just be a fluke of the data. To look at this, we will be running another classic hypothesis test. However, we will be doing this one slightly more manually compared to the test looking at reach differences. This is just a good bit of practice to make sure we actually understand what is going on under the hood.
+
+First, we will look at what a random distribution would look like. Here, were have collections of [Bernoulli Trials](https://en.wikipedia.org/wiki/Bernoulli_trial), Successes being Wins and Fails being Losses. As a result, we will us a [Binomial Distribution](https://en.wikipedia.org/wiki/Binomial_distribution) and count the number of Successes. We will run this 100,000 times and see what a random distribution of wins and losses would look like. This will let us simulate what we would expect to see if there was no connection between fighters' stances and the Outcome of the fight.
+
 ~~~
 fig = plt.figure(figsize=(10,5))
 
@@ -224,6 +241,10 @@ a = np.random.binomial(100, 0.5, 100000)
 sns.countplot(a)
 ~~~
 ![Binomial Distribution](Images/Binomial-Distribution.png?raw=true "Binomial Distribution")
+
+Here we have ran the simulation over 100 fights for each sample, however, when performing our testing, we will adjsut this to the number of fights that were actually obsereved in each sample.
+
+Next, we will have a look at the number of wins in our populations (comparable to the mean success rate in our simulations) and see how often that number of wins or more occurred in our 100,000 simulations.
 
 ~~~
 southpaw_win_v_orthodox = southpaw[(southpaw['Outcome'] == 1) & (southpaw['Stance_O'] == 'Orthodox')]
@@ -236,7 +257,9 @@ print('Southpaw losses vs Othodox', len(southpaw_loss_v_orthodox))
 print('Percentage won:', round(percentage_southpaw_win_v_orthodox * 100,2), '%')
 ~~~
 Southpaw wins vs Othodox 503
+
 Southpaw losses vs Othodox 453
+
 Percentage won: 52.62 %
 
 ~~~
