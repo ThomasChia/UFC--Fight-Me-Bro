@@ -244,7 +244,7 @@ sns.countplot(a)
 
 Here we have ran the simulation over 100 fights for each sample, however, when performing our testing, we will adjsut this to the number of fights that were actually obsereved in each sample.
 
-Next, we will have a look at the number of wins in our populations (comparable to the mean success rate in our simulations) and see how often that number of wins or more occurred in our 100,000 simulations.
+Next, we will have a look at the number of wins in our populations (comparable to the mean success rate in our simulations) and compare to how often that number or more wins occurred in our 100,000 simulations. This will show us how unlikely the number of wins was if there is no difference between samples.
 
 ~~~
 southpaw_win_v_orthodox = southpaw[(southpaw['Outcome'] == 1) & (southpaw['Stance_O'] == 'Orthodox')]
@@ -256,11 +256,12 @@ print('Southpaw wins vs Othodox', len(southpaw_win_v_orthodox))
 print('Southpaw losses vs Othodox', len(southpaw_loss_v_orthodox))
 print('Percentage won:', round(percentage_southpaw_win_v_orthodox * 100,2), '%')
 ~~~
-Southpaw wins vs Othodox 503
 
-Southpaw losses vs Othodox 453
-
-Percentage won: 52.62 %
+Event | Occurrence
+:-----|----
+Southpaw wins vs Othodox | 503
+Southpaw losses vs Othodox | 453
+Percentage won | 52.62 %
 
 ~~~
 switch_win_v_orthodox = switch[(switch['Outcome'] == 1) & (switch['Stance_O'] == 'Orthodox')]
@@ -271,12 +272,15 @@ print('Switch losses vs Othodox', len(switch_loss_v_orthodox))
 print('Percentage won:', round((len(switch_win_v_orthodox) / 
                         (len(switch_win_v_orthodox) + len(switch_loss_v_orthodox))) * 100,2), '%')
 ~~~
-Switch wins vs Othodox 85
-Switch losses vs Othodox 72
-Percentage won: 54.14 %
+Event | Occurrence
+:-----|----
+Switch wins vs Othodox | 85
+Switch losses vs Othodox | 72
+Percentage won | 54.14 %
 
-Need to work out which of these is more statistically significant. The plan to do this is to look at which is more statistically significant (less likely) compared to a standard binomial expansion, with n = n and p = 0.5.
+From this look at the populations, we can see that Southpaw wins more frequently against Orthodox compared to Southpaw, however, the number of fights is far lower, giving us less confidence that this isn't just due to random chance. Therefore, next we need to work out which of these is more statistically significant. The plan to do this is to look at which is less likely compared to a standard binomial expansion, with n = number of fights in sub-population and p = 0.5.
 
+#### Southpaw vs. Orthodox
 ~~~
 total_southpaw_vs_orthodox = len(southpaw_win_v_orthodox) + len(southpaw_loss_v_orthodox)
 
@@ -284,8 +288,10 @@ binomial_southpaw = np.random.binomial(total_southpaw_vs_orthodox, 0.5, 1000000)
 print('Probability of seeing observed result:', 
       round((sum(binomial_southpaw >= len(southpaw_win_v_orthodox)) / len(binomial_southpaw)) * 100, 3), '%')
 ~~~
-Probability of seeing observed result: 5.694 %
+Probability of seeing observed result: **5.694 %**
 
+
+#### Switch vs. Orthodox
 ~~~
 total_switch_vs_orthodox = len(switch_win_v_orthodox) + len(switch_loss_v_orthodox)
 
@@ -293,16 +299,11 @@ binomial_switch = np.random.binomial(total_switch_vs_orthodox, 0.5, 1000000)
 print('Probability of seeing observed result:', 
       round((sum(binomial_switch >= len(switch_win_v_orthodox)) / len(binomial_switch)) * 100, 3), '%')
 ~~~
-Probability of seeing observed result: 16.972 %
+Probability of seeing observed result: **16.972 %**
 
-~~~
-total_switch_vs_orthodox = len(switch_win_v_orthodox) + len(switch_loss_v_orthodox)
 
-binomial_switch = np.random.binomial(total_switch_vs_orthodox, percentage_southpaw_win_v_orthodox, 1000000)
-print('Probability of seeing observed result:', 
-      round((sum(binomial_switch >= len(switch_win_v_orthodox)) / len(binomial_switch)) * 100, 3), '%')
-~~~
-Probability of seeing observed result: 38.104 %
+Painful, neither results are significant at the 5% level. However, we do see that the probably is some advantages in going for different stances to Orthodox. This is likely down to lack of experience against these less popular positioning. However, it would be interesting to see how this breaks down between left- and right-handed individuals since that was previously the main method for determining which hand you lead with. Was there actually reason to this, or would right handers actually benefit from leading with their more dominant and more frequently used right hand? Definitely one are of potential follow-up.
+
 
 ### Ground and Pound or Knock-Out Artist?
 There is no direct feature to say if someone is mainly a striker or a grappler, or even a combination between the two. However, it would be reasonable to assume that strikers would tend to have more finishes on their feet (more KDs and more STRs) and grapplers would have more finishes on the ground (SUBs and TDs). Therefore, a decent proxy might be to compare how fighters with more grappler heavy stats does against fighters with more striking heavy stats, to see which does better and which might be the preferred style if you had to choose one.
