@@ -306,26 +306,19 @@ Painful, neither results are significant at the 5% level. However, we do see tha
 
 
 ### Ground and Pound or Knock-Out Artist?
-There is no direct feature to say if someone is mainly a striker or a grappler, or even a combination between the two. However, it would be reasonable to assume that strikers would tend to have more finishes on their feet (more KDs and more STRs) and grapplers would have more finishes on the ground (SUBs and TDs). Therefore, a decent proxy might be to compare how fighters with more grappler heavy stats does against fighters with more striking heavy stats, to see which does better and which might be the preferred style if you had to choose one.
+There is no direct feature to say if someone is mainly a striker or a grappler, or even a combination between the two. However, it would be reasonable to assume that strikers would tend to have more finishes on their feet (more KDs and more STRs) and grapplers would have more finishes on the ground (SUBs and TDs). Therefore, a decent proxy might be to compare how fighters with more grappler heavy stats do against fighters with more striking heavy stats. This might give us an insight into which might be the preferred style before going into battle.
 
 One potential downfall of this might be that fighters nowadays aren't trained in a specific discipline and so the populations that we are comparing might not represent what how world-class boxers would really do against world-class wrestlers.
 
-~~~
-data_types_of_fighter_full = pd.read_csv(address)
-data_types_of_fighter_full = data_types_of_fighter_full.drop(['Unnamed: 0', 'index', 'Unnamed: 0.1_x',
-                  'Unnamed: 0.1_y', 'Date_Adj', 'Unnamed: 0.1'
-                 ], axis = 1)
-~~~
-We can group based on a couple of different columns. Either, the method of finish, or the total number of past 
-actions (strikes, takedowns, submissions, knockdowns). We will look at both and initially, the past actions as this is what the fighter does most, compared to just how the match was finished. Also, there is a smaller sample size when looking at the method of finish as it only gives detail on the winner, cutting the population in half.
+We can group based on a couple of different columns. Either, the method of finish, or the total number of past actions (strikes, takedowns, submissions, knockdowns). Since I have few friends and little better to do while in lockdonw will look at both. First up, the past actions. This is what the fighter actually does most, compared to just how the match was finished, hence might give us a better indication of their overall fighting style. Also, there is a smaller sample size when looking at the method of finish as it only gives detail on the winner, cutting the population in half. A potential expansion to this could be to add the method of loss to bridge this gap. We could then use this to indicate where a fighter is more uncomfortable and so their preferred style might be the opposite. Case and point, until recently Conor Mcgregor had never been knocked out, but submitteed multiple times, as such we would classify him as a striker. Given he had a [brief spell](https://en.wikipedia.org/wiki/Floyd_Mayweather_Jr._vs._Conor_McGregor) in boxing against [Floyd Mayweather](https://en.wikipedia.org/wiki/Floyd_Mayweather_Jr.), this might be pretty accurate.
 
-Split fighters into two groups, strikers and grapplers, based on total KD and STR vs total TD and SUBs. Strikes happen more often than SUBs as a SUB usually finishes the match and a TD is very rare. Therefore, grouping based on totals will not work.
+So problem numero uno, when we split fighters into strikers and grapplers based on *total* KDs and STRs vs total TDs and SUBs, strikes simply happen more often than grappling maneuvers. This is somewhat expect though since a submission usually finishes the fight and a takedown is very rare. Therefore, grouping based on totals will not work.
 
-There are a couple of ways to solve this, look at comparisons to the average, e.g. if a fighter is below average in STR and above in TD, they are likley a wrestler. However, this could get complicated if a fighter is above average in everything as would be the case for long-standing fighters. Just having more fights will increase your numbers. (Method A)
+There are a couple of ways to solve this, look at comparisons to the average perhaps, e.g. if a fighter is below average in STR and above in TD, they are likley a wrestler. However, this could get complicated if a fighter is above average in everything as would be the case for long-standing fighters. Just having more fights will increase your numbers. **(Method A)**
 
-Another way would be to look the total proportion of STR, KD, TD, and SUBs for the whole dataset and then base the split off how each fighters stats compare to this. This can be quite complicated, but fixes the issues of one fighter having more fights because it will always be out of 100%. (Method B)
+Another way would be to look the total proportion of STR, KD, TD, and SUBs for the whole dataset and then base the split off how each fighters stats compare to this. This can be quite complicated in terms of data manipulation, but fixes the issues of one fighter having more fights because it will always be out of 100%. **(Method B)**
 
-A final method would be to normalising the values, so that they are comparable. A one unit increase in STR is comparable to a one unit increase in TD. (Method C)
+A final method would be to normalising the values, so that they are comparable. Another way of putting this would be to get the values all working on the same scale so a one unit increase in STR is comparable to a one unit increase in TD. **(Method C)**
 
 We will attempt Methods B and C, mainly to practice data manipulation, and secondly to compare which might give a better split of the population. Initially I think that Method C would be best.
 
@@ -347,12 +340,14 @@ for i in range(0, len(types)):
     
 ~~~
 
-{'STR': 0.9443907404703942,
- 'TD': 0.0340268379582319,
- 'KD': 0.00853827427430587,
- 'SUB': 0.013044147297068025}
+Action | Proportion
+-------|-----------
+STR | 0.944
+TD | 0.034
+KD | 0.008
+SUB | 0.013
  
-STR are so dominant and even include strikes on the ground, therefore, it might make sense to eliminate them, and just look at how the fight got to the ground, TDs vs KDs.
+Oh dear, another problem. STR are so dominant and even include strikes on the ground, therefore, it might make sense to eliminate them, and just look at how the fight got to the ground, TDs vs KDs.
 
 ~~~
 data_proportions = data_types_of_fighter.sum()
@@ -362,7 +357,13 @@ proportions = {}
 for i in range(0, len(types)):
     proportions[types[i]] = ((data_proportions[i]) / (data_proportions.sum()))
 ~~~
-{'TD': 0.7994067482387839, 'KD': 0.20059325176121617}
+
+Action | Proportion
+-------|-----------
+TD | 0.799
+KD | 0.201
+
+Ah that's a bit better, time to have a look.
 
 ~~~
 key_columns = ['KD_F', 'TD_F']
@@ -394,7 +395,7 @@ strikers = data_types_of_fighter_final[data_types_of_fighter_final['Type'] == 'S
 grapplers = data_types_of_fighter_final[data_types_of_fighter_final['Type'] == 'Grappler']
 ~~~
 
-How do strikers do?
+#### How do strikers do?
 
 ~~~
 fig = plt.figure(figsize=(10,5))
