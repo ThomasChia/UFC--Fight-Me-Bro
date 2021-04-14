@@ -14,6 +14,8 @@ Things to look at:
 - Regression to have a look at the impact of reach on likelihood of winning
 - Add in the machine learning models from betting.
 
+h;<sub>&theta;</sub>(x) = &theta;<sub>o</sub> x + &theta;<sub>1</sub>x
+
 
 ## Table of contents
 * [Introduction](#introduction)
@@ -143,20 +145,63 @@ Going back to our early hypotheses, it doesn't look like there is much correlati
 
 ## The Reach Advantage
 
+So, into testing the hypotheses. Up first we have one of the top things that pops up when a fighter's stats are shown, and one of the main things no one I ask has a clue about its effect. How much does having a longer reach actually affect a fighter's ability?
+
+To look into this, it will be good to initially look at the distribution of Reach differences split by Outcome.
+~~~
+sns.distplot(winners['REACH_dif'], label='Winners')
+sns.distplot(losers['REACH_dif'], label='Losers')
+plt.legend()
+~~~
 
 ![Reach Differences](Images/UFC-reach-dif.png?raw=true "Reach Differences")
 
+Nice! We have two populations that look almost identical. Fear not though, we can look to see if there is some separation here. For this, we will do a classic hypthosis test, examining if the mean difference in Reach is greater for Winners compared to Losers. Naturally, like most statisticians without an imagination, we will be using a 5% significance level.
+
+Our population is well above 30, so we can use a z-test. If this were not the case a t-test would be more appropriate to account for the resulting increased uncertainty. Graphically, the difference between these two distributions is that the t-distribution has wider tails. Further, from the plot above we can see that the data is normally distributed around the mean, which appears to be roughly 0. The one slight issue with this is the lack of independence between samples. This is because sometimes the same fighter is selected twice as they fight multiple times. However, we have a large number of different fights, so this should not be an issue overall.
+
+For our null hypothesis, we will have that there is no difference between the mean Reach difference for Winners and Losers. Or stating another way, that having a longer or shorter reach has no effect on the Outcome of a fights. We will have this as a two tailed test, as while we might expect a longer reach to be better as you can hit without being touched, a smaller reach might acutally be better. A fighter would be more nimble and potentially have greater control over their limbs as they are closer to the body.
+
+
+H<sub>(0): &mu; = 0 
+
+H<sub>(1): &mu; ≠ 0
+
+
+Quickly looking at the average Reach difference, we see that this is 0.2 inches, so mostly fighters line up with the same wingspan. This makes sense since they are in the same weightclass and so would be expected to be of similar height. Moving on to performing the test, we use the following code:
+
+~~~
+ztest ,pval = stests.ztest(winners['REACH_dif'], x2 = losers['REACH_dif'], value=0, alternative = 'two-sided')
+print(float(pval))
+
+if pval<0.05:
+    print("reject null hypothesis")
+else:
+    print("accept null hypothesis")
+~~~
+
+This gives us a p-value of 1.7237261348489579e-06, which to any normal person is 0. Therefore, we reject the null hypthosis and can conclude that Reach does play a difference in fights. Translating this into something useful for myself, always fight people smaller than you. That or stretch myself with one of those medival torture machines. Sweet, onto the next item.....
 
 
 ## Styles Make Fights
 
 ### So, What's Your Stance?
 
+Discovering Reach has an impact is all well and good, however, that doesn't really give us anything to work on ourselves, or any real direction in becoming the Ultimate Fighter. As much as I hate to admit it, my growing days are behind me. What we need is something more tangible. What stance to use.
+
+One of the first things that you learn in boxing is which stance you are going to fight in, [Orthodox](https://en.wikipedia.org/wiki/Orthodox_stance), with you left hand leading as your jab hand, or [Southpaw](https://en.wikipedia.org/wiki/Southpaw_stance), with your right hand leading as your jab hand. Generally this is decided by whichever is your dominant hand and leading with the other. However, recently there has been [debate](https://www.youtube.com/watch?v=96B8_Vfkxmw) over one simply being more effect than the other. This requires an inspection of the data.
+
+First, let's have a quick look at the overall results from different stances. Is there one clear winner that just always dominates? We will also be able to look at which stance is most popular. Given how this was determined in the past, we woudl expect Orthodox to be the most popular since most individuals are right handed.
+
 ~~~
 fig = plt.figure(figsize=(10,5))
 sns.countplot(data['Stance_F'], hue = data['Outcome'])
 ~~~
 ![Stance Differences](Images/UFC-stance-differences.png?raw=true "Stance Differences")
+
+Sweet, so Orthodox is most popular, as expected. There are also some fighters using a Switch stance, where they change between Orthodox and Southpaw during the fight, see [Klitschko vs. Tyson Fury](https://en.wikipedia.org/wiki/Wladimir_Klitschko_vs._Tyson_Fury) for a great example of this, and some using an Open Stance. Those using an Open Stance is incredibly low, so we will mostly be excluding them from any testing we perform later on. However, it looks like Southpaw and Switch stances are winning more than they are losing...definitely an area for further investigation.
+
+A nice starting place is to look at how each of the stances compares against each other. To do this, we will plot the wins (1) and losses (0) of each stance against all other stance in separate plots too see if any match up particularly well against any of the others.
 
 ~~~
 fig = plt.figure(figsize=(10,5))
@@ -182,6 +227,13 @@ sns.countplot(switch['Stance_O'], hue = switch['Outcome'])
 ~~~
 ![Stance Differences - Switch](Images/UFC-stance-differences-Switch.png?raw=true "Stance Differences - Switch")
 
+
+The immediate point that stands out to me is that Orthodox seems to do worse against both Southpaw and Switch stances. It also gives a first hint that one might be better than the others. A reason for this could be because Orthodox fighters just aren't as used to fighting Southpaws (and Switch) since they are much less prevelant in the population, whereas Southpaws get much more practice at battling Othodox. This level of familiarity and experience might just give them the edge.
+
+But just how different is this difference? Is it significant, or could it really  just be a fluke of the data. To look at this, we will be running another classic hypothesis test. However, we will be doing this one slightly more manually compared to the test looking at reach differences. This is just a good bit of practice to make sure we actually understand what is going on under the hood.
+
+First, we will look at what a random distribution would look like. Here, were have collections of [Bernoulli Trials](https://en.wikipedia.org/wiki/Bernoulli_trial), Successes being Wins and Fails being Losses. As a result, we will us a [Binomial Distribution](https://en.wikipedia.org/wiki/Binomial_distribution) and count the number of Successes. We will run this 100,000 times and see what a random distribution of wins and losses would look like. This will let us simulate what we would expect to see if there was no connection between fighters' stances and the Outcome of the fight.
+
 ~~~
 fig = plt.figure(figsize=(10,5))
 
@@ -189,6 +241,10 @@ a = np.random.binomial(100, 0.5, 100000)
 sns.countplot(a)
 ~~~
 ![Binomial Distribution](Images/Binomial-Distribution.png?raw=true "Binomial Distribution")
+
+Here we have ran the simulation over 100 fights for each sample, however, when performing our testing, we will adjsut this to the number of fights that were actually obsereved in each sample.
+
+Next, we will have a look at the number of wins in our populations (comparable to the mean success rate in our simulations) and compare to how often that number or more wins occurred in our 100,000 simulations. This will show us how unlikely the number of wins was if there is no difference between samples.
 
 ~~~
 southpaw_win_v_orthodox = southpaw[(southpaw['Outcome'] == 1) & (southpaw['Stance_O'] == 'Orthodox')]
@@ -200,9 +256,12 @@ print('Southpaw wins vs Othodox', len(southpaw_win_v_orthodox))
 print('Southpaw losses vs Othodox', len(southpaw_loss_v_orthodox))
 print('Percentage won:', round(percentage_southpaw_win_v_orthodox * 100,2), '%')
 ~~~
-Southpaw wins vs Othodox 503
-Southpaw losses vs Othodox 453
-Percentage won: 52.62 %
+
+Event | Occurrence
+:-----|----
+Southpaw wins vs Othodox | 503
+Southpaw losses vs Othodox | 453
+Percentage won | 52.62 %
 
 ~~~
 switch_win_v_orthodox = switch[(switch['Outcome'] == 1) & (switch['Stance_O'] == 'Orthodox')]
@@ -213,12 +272,15 @@ print('Switch losses vs Othodox', len(switch_loss_v_orthodox))
 print('Percentage won:', round((len(switch_win_v_orthodox) / 
                         (len(switch_win_v_orthodox) + len(switch_loss_v_orthodox))) * 100,2), '%')
 ~~~
-Switch wins vs Othodox 85
-Switch losses vs Othodox 72
-Percentage won: 54.14 %
+Event | Occurrence
+:-----|----
+Switch wins vs Othodox | 85
+Switch losses vs Othodox | 72
+Percentage won | 54.14 %
 
-Need to work out which of these is more statistically significant. The plan to do this is to look at which is more statistically significant (less likely) compared to a standard binomial expansion, with n = n and p = 0.5.
+From this look at the populations, we can see that Southpaw wins more frequently against Orthodox compared to Southpaw, however, the number of fights is far lower, giving us less confidence that this isn't just due to random chance. Therefore, next we need to work out which of these is more statistically significant. The plan to do this is to look at which is less likely compared to a standard binomial expansion, with n = number of fights in sub-population and p = 0.5.
 
+#### Southpaw vs. Orthodox
 ~~~
 total_southpaw_vs_orthodox = len(southpaw_win_v_orthodox) + len(southpaw_loss_v_orthodox)
 
@@ -226,8 +288,10 @@ binomial_southpaw = np.random.binomial(total_southpaw_vs_orthodox, 0.5, 1000000)
 print('Probability of seeing observed result:', 
       round((sum(binomial_southpaw >= len(southpaw_win_v_orthodox)) / len(binomial_southpaw)) * 100, 3), '%')
 ~~~
-Probability of seeing observed result: 5.694 %
+Probability of seeing observed result: **5.694 %**
 
+
+#### Switch vs. Orthodox
 ~~~
 total_switch_vs_orthodox = len(switch_win_v_orthodox) + len(switch_loss_v_orthodox)
 
@@ -235,38 +299,26 @@ binomial_switch = np.random.binomial(total_switch_vs_orthodox, 0.5, 1000000)
 print('Probability of seeing observed result:', 
       round((sum(binomial_switch >= len(switch_win_v_orthodox)) / len(binomial_switch)) * 100, 3), '%')
 ~~~
-Probability of seeing observed result: 16.972 %
+Probability of seeing observed result: **16.972 %**
 
-~~~
-total_switch_vs_orthodox = len(switch_win_v_orthodox) + len(switch_loss_v_orthodox)
 
-binomial_switch = np.random.binomial(total_switch_vs_orthodox, percentage_southpaw_win_v_orthodox, 1000000)
-print('Probability of seeing observed result:', 
-      round((sum(binomial_switch >= len(switch_win_v_orthodox)) / len(binomial_switch)) * 100, 3), '%')
-~~~
-Probability of seeing observed result: 38.104 %
+Painful, neither results are significant at the 5% level. However, we do see that the probably is some advantages in going for different stances to Orthodox. This is likely down to lack of experience against these less popular positioning. However, it would be interesting to see how this breaks down between left- and right-handed individuals since that was previously the main method for determining which hand you lead with. Was there actually reason to this, or would right handers actually benefit from leading with their more dominant and more frequently used right hand? Definitely one are of potential follow-up.
+
 
 ### Ground and Pound or Knock-Out Artist?
-There is no direct feature to say if someone is mainly a striker or a grappler, or even a combination between the two. However, it would be reasonable to assume that strikers would tend to have more finishes on their feet (more KDs and more STRs) and grapplers would have more finishes on the ground (SUBs and TDs). Therefore, a decent proxy might be to compare how fighters with more grappler heavy stats does against fighters with more striking heavy stats, to see which does better and which might be the preferred style if you had to choose one.
+There is no direct feature to say if someone is mainly a striker or a grappler, or even a combination between the two. However, it would be reasonable to assume that strikers would tend to have more finishes on their feet (more KDs and more STRs) and grapplers would have more finishes on the ground (SUBs and TDs). Therefore, a decent proxy might be to compare how fighters with more grappler heavy stats do against fighters with more striking heavy stats. This might give us an insight into which might be the preferred style before going into battle.
 
 One potential downfall of this might be that fighters nowadays aren't trained in a specific discipline and so the populations that we are comparing might not represent what how world-class boxers would really do against world-class wrestlers.
 
-~~~
-data_types_of_fighter_full = pd.read_csv(address)
-data_types_of_fighter_full = data_types_of_fighter_full.drop(['Unnamed: 0', 'index', 'Unnamed: 0.1_x',
-                  'Unnamed: 0.1_y', 'Date_Adj', 'Unnamed: 0.1'
-                 ], axis = 1)
-~~~
-We can group based on a couple of different columns. Either, the method of finish, or the total number of past 
-actions (strikes, takedowns, submissions, knockdowns). We will look at both and initially, the past actions as this is what the fighter does most, compared to just how the match was finished. Also, there is a smaller sample size when looking at the method of finish as it only gives detail on the winner, cutting the population in half.
+We can group based on a couple of different columns. Either, the method of finish, or the total number of past actions (strikes, takedowns, submissions, knockdowns). Since I have few friends and little better to do while in lockdonw will look at both. First up, the past actions. This is what the fighter actually does most, compared to just how the match was finished, hence might give us a better indication of their overall fighting style. Also, there is a smaller sample size when looking at the method of finish as it only gives detail on the winner, cutting the population in half. A potential expansion to this could be to add the method of loss to bridge this gap. We could then use this to indicate where a fighter is more uncomfortable and so their preferred style might be the opposite. Case and point, until recently Conor Mcgregor had never been knocked out, but submitteed multiple times, as such we would classify him as a striker. Given he had a [brief spell](https://en.wikipedia.org/wiki/Floyd_Mayweather_Jr._vs._Conor_McGregor) in boxing against [Floyd Mayweather](https://en.wikipedia.org/wiki/Floyd_Mayweather_Jr.), this might be pretty accurate.
 
-Split fighters into two groups, strikers and grapplers, based on total KD and STR vs total TD and SUBs. Strikes happen more often than SUBs as a SUB usually finishes the match and a TD is very rare. Therefore, grouping based on totals will not work.
+So problem numero uno, when we split fighters into strikers and grapplers based on *total* KDs and STRs vs total TDs and SUBs, strikes simply happen more often than grappling maneuvers. This is somewhat expect though since a submission usually finishes the fight and a takedown is very rare. Therefore, grouping based on totals will not work.
 
-There are a couple of ways to solve this, look at comparisons to the average, e.g. if a fighter is below average in STR and above in TD, they are likley a wrestler. However, this could get complicated if a fighter is above average in everything as would be the case for long-standing fighters. Just having more fights will increase your numbers. (Method A)
+There are a couple of ways to solve this, look at comparisons to the average perhaps, e.g. if a fighter is below average in STR and above in TD, they are likley a wrestler. However, this could get complicated if a fighter is above average in everything as would be the case for long-standing fighters. Just having more fights will increase your numbers. **(Method A)**
 
-Another way would be to look the total proportion of STR, KD, TD, and SUBs for the whole dataset and then base the split off how each fighters stats compare to this. This can be quite complicated, but fixes the issues of one fighter having more fights because it will always be out of 100%. (Method B)
+Another way would be to look the total proportion of STR, KD, TD, and SUBs for the whole dataset and then base the split off how each fighters stats compare to this. This can be quite complicated in terms of data manipulation, but fixes the issues of one fighter having more fights because it will always be out of 100%. **(Method B)**
 
-A final method would be to normalising the values, so that they are comparable. A one unit increase in STR is comparable to a one unit increase in TD. (Method C)
+A final method would be to normalising the values, so that they are comparable. Another way of putting this would be to get the values all working on the same scale so a one unit increase in STR is comparable to a one unit increase in TD. **(Method C)**
 
 We will attempt Methods B and C, mainly to practice data manipulation, and secondly to compare which might give a better split of the population. Initially I think that Method C would be best.
 
@@ -288,12 +340,14 @@ for i in range(0, len(types)):
     
 ~~~
 
-{'STR': 0.9443907404703942,
- 'TD': 0.0340268379582319,
- 'KD': 0.00853827427430587,
- 'SUB': 0.013044147297068025}
+Action | Proportion
+-------|-----------
+STR | 0.944
+TD | 0.034
+KD | 0.008
+SUB | 0.013
  
-STR are so dominant and even include strikes on the ground, therefore, it might make sense to eliminate them, and just look at how the fight got to the ground, TDs vs KDs.
+Oh dear, another problem. STR are so dominant and even include strikes on the ground, therefore, it might make sense to eliminate them, and just look at how the fight got to the ground, TDs vs KDs.
 
 ~~~
 data_proportions = data_types_of_fighter.sum()
@@ -303,7 +357,13 @@ proportions = {}
 for i in range(0, len(types)):
     proportions[types[i]] = ((data_proportions[i]) / (data_proportions.sum()))
 ~~~
-{'TD': 0.7994067482387839, 'KD': 0.20059325176121617}
+
+Action | Proportion
+-------|-----------
+TD | 0.799
+KD | 0.201
+
+Ah that's a bit better, time to have a look.
 
 ~~~
 key_columns = ['KD_F', 'TD_F']
@@ -335,7 +395,7 @@ strikers = data_types_of_fighter_final[data_types_of_fighter_final['Type'] == 'S
 grapplers = data_types_of_fighter_final[data_types_of_fighter_final['Type'] == 'Grappler']
 ~~~
 
-How do strikers do?
+#### How do strikers do?
 
 ~~~
 fig = plt.figure(figsize=(10,5))
