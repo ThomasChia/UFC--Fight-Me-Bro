@@ -403,6 +403,8 @@ sns.countplot(strikers['Type_O'], hue = strikers['Outcome'])
 ~~~
 ![Type Differences - Striker](Images/UFC-type-differences-Strikers.png?raw=true "Type Differences - Striker")
 
+#### How do grapplers do?
+
 ~~~
 plt.figure(figsize=(10,5))
 sns.countplot(grapplers['Type_O'], hue = grapplers['Outcome'])
@@ -412,11 +414,27 @@ sns.countplot(grapplers['Type_O'], hue = grapplers['Outcome'])
 
 ## Issues
 
+With most things in my life, there are a lot of issues that come with this work. For ease we will go in order.
+
+When looking at how Reach affects fights, we are just looking at two different populations, Winners and Losers. We are then comparing the reach differences of these two groups. During this, we don't control for any other variables, we are naively looking at the problem and saying how different is one attribute between populations. This is an issue because this doesn't actually show that having a longer reach will necessarily lead to an increased chance of winning. Maybe a longer reach means a taller fighter and more height actually wins you the fight. It could even be something wild like the referees will actually favour greater wingspans. Obviously this is quite unlikely, however, based on the work above, we are not able to effectively disprove this. A nice fix would be to use a linear regression to look at effects, conditioning on numerous other variabels. This will help in isolating the impact of Reach on the outcome fo the fight and bring us more evidence of whether or not it should be taken into account when evaluating athletes.
+
+Moving onto our analysis of different styles, much more issues appear. The most obvious of which, we don't actually have a variable that will tell us what style of fighter an individual is. That would have been really nice to have. Instead we had to use proxies, which might be just as good, but another issues, we don't really have a measure to tell us if they truly are any good. This is quite a large assumption and underpins a lot of our conclusions. Further, there is no way of telling whether that style even won them the fight. A good example of this would be the [Karamu Usman vs. Colby Covington title match](https://en.wikipedia.org/wiki/UFC_245). Both individuals were wrestlers growing up and as such would be primarily ground experts. However, during the fight [not a single takedown attempt was made](http://ufcstats.com/fight-details/82177c0f91d9618a). This fight was entirely fought standing up. Our analysis is not sophisticated enough to cover these kinds of battles and performances. To do this, we would need more detailed individual fight backgrounds and fight details. We could do some work to see how fights are won, using statistics from the UFC that look at the number of key actions in each fight and based on this see which discipline is more effective. Definitely something to consider moving forwards.
+
 
 ## What Actually Matters?
 
+So what actually matters when it comes to a fight. Well we haven't done a regression yet and is an analysis really complete if you haven't run one?  Probably, but we're still going to do one anyway. 
 
+~~~
+X = data[['ELO_dif', 'HT_dif', 'REACH_dif', 'TD_dif', 'KD_dif', 'STR_dif', 'SUB_dif',
+          'Days_dif', 'Rounds_dif', 'Seconds_in_Ring_dif', 'Perf_of_Night_dif',
+          'Win_dif', 'Loss_dif']]
+y = data['Outcome']
+X2 = sm.add_constant(X)
+est = sm.Logit(y, X2)
+est2 = est.fit()
+print(est2.summary())
+~~~
 
-
-
+<img src="Images/UFC-linear-regression-output.png" width="700">
 
