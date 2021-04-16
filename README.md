@@ -425,6 +425,16 @@ Moving onto our analysis of different styles, much more issues appear. The most 
 
 So what actually matters when it comes to a fight. Well we haven't done a regression yet and is an analysis really complete if you haven't run one?  Probably, but we're still going to do one anyway. 
 
+~~~
+X = data[['ELO_dif', 'HT_dif', 'REACH_dif', 'TD_dif', 'KD_dif', 'STR_dif', 'SUB_dif',
+          'Days_dif', 'Rounds_dif', 'Seconds_in_Ring_dif', 'Perf_of_Night_dif',
+          'Win_dif', 'Loss_dif']]
+y = data['Outcome']
+X2 = sm.add_constant(X)
+est = sm.Logit(y, X2)
+est2 = est.fit()
+print(est2.summary())
+~~~
 
 
 
