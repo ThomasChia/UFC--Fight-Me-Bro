@@ -436,5 +436,5 @@ est2 = est.fit()
 print(est2.summary())
 ~~~
 
-
+![Linear Regression](Images/UFC-linear-regression-output.png =100x20)
 
