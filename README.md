@@ -113,6 +113,13 @@ While we have some initial hypothesis laid out in the review of past literature,
 
 ADD SUMMARY STATISTICS
 
+![Fights Over Time](Images/UFC-fights-over-time.png?raw=true "Fights Over Time")
+
+After more cleaning the number of fighters is: 1335
+Total number of fights is: 3143
+
+Less than 3 fights per person, so not great for trying to measure the unobservables of each person, so predictions are unlikely to be very good. Mainly due to only having odds for certain and not all fights. Something to improve on moving forwards.
+
 NUMBER OF FIGHTERS
 NUMBER OF FIGHTS
 AVERAGE AGE OF FIGHTERS
