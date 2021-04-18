@@ -2,21 +2,6 @@
 Scraping and analysing UFC data to see what actually matters when two people clash inside and go to war.
 
 
-Things to look at:
-- Age difference between winners and losers - histogram
-- Reach difference between winners and losers
-- Height difference between winners and losers
-- Stances with most wins and most wins as a percentage. Tricky as one stance might dominate, so need to fix this.
-- Types of finishes (KO, Sub, etc.)
-- Does past record affect win percentage, would imagine u-shaped, so more wins better until a certain point due to damage to body. Look at a fighters clock - how many fights do they have to win a world championship?
-- More strikes make you more likely to win?
-- Look to create an all time ranking
-- Regression to have a look at the impact of reach on likelihood of winning
-- Add in the machine learning models from betting.
-
-h;<sub>&theta;</sub>(x) = &theta;<sub>o</sub> x + &theta;<sub>1</sub>x
-
-
 ## Introduction
 
 Unfortunately, I am a small man. As a result, in physical confrontations, it is clear that things would not go well. Naturally, my first instinct would be to run as fast as possible in the opposite direction of any would-be attacker, but, I don't run so good, so likely they would catch up with me anyway. Now I'm in the same situation as before, except hot, sweaty, and out of breath. Trust me, no one wants to see that.
