@@ -111,26 +111,16 @@ STR_per_min | The average number of Strikes per minute in the Fighter's career |
 
 While we have some initial hypothesis laid out in the review of past literature, it will be good to just take a general look at the data to get a feel of what is going on there. Therefore, first, as always, some summary statistics.
 
-ADD SUMMARY STATISTICS
+After some cleaning, we are left with 3143 total fights. This isn't too bad, still a lot. However, this is data for 1335 fighters i.e. less than three fights per person. The main problem with this is that obtaining information around the unobservables of each fighter will be difficult. There is a lot that goes into the outcome of a fight, beyond what is in this dataset. Commentators often talk about 'grit', 'determination', and 'heart' all as things that push fighters beyond what they though possible. These are things that are highly unlikely to be captured here, but on the otherhand, the brightest minds in the world can't yet quantify 'grit', pretty confident my small brain wouldn't be able to either. Another area this will hit is predictions should that be a focus of future projects, again as these unobservables are unlikely to be appropriately measured. The main reason for this small dataset is reducing fights down to only those for which we have odds data (since this is pretty much the best predictor we have and to be fair may well capture some of these unobservables I was so devastated by only moments ago, huzzah!).
+
+Looking at the number of fights over time, we see that this has steadily grown since the mid-2000s, which is to be expected as the UFC has become increasingly popular and MMA and increasingly mainstream sport. We see events levelling off from 2015 onwards, however, this is more due to consequences of cleaning and this number has in reality has been growing steadily. Of course expect in 2020 as a result of a stupid virus going round that basically shutdown the world. Classic.
 
 ![Fights Over Time](Images/UFC-fights-over-time.png?raw=true "Fights Over Time")
 
-After more cleaning the number of fighters is: 1335
-Total number of fights is: 3143
-
-Less than 3 fights per person, so not great for trying to measure the unobservables of each person, so predictions are unlikely to be very good. Mainly due to only having odds for certain and not all fights. Something to improve on moving forwards.
-
-NUMBER OF FIGHTERS
-NUMBER OF FIGHTS
-AVERAGE AGE OF FIGHTERS
-DISTANCE OF FIGHTS
-WIN METHODS
-NUMBER OF EVENTS
-EVENTS OVER TIME
 
 #### Correlation Matrix
 
-Next it will be useful to see how all of these variables interact with each other. What seems to be linked with what? To do this, we will use our trusty correlation matrix. This will help us to understand our data better and the connections between variables, as well as give an indication of potential causes of multicollinearity later down the line.
+Before jumping into analysis like some overexcited rat lunging for cheese when a cold metal bar comes smashing down on its neck, it will be first useful to see how all of these variables interact with each other. What seems to be linked with what? To do this, we will use our trusty correlation matrix. This will help us to understand our data better and the connections between variables, as well as give an indication of potential causes of multicollinearity later down the line.
 
 *Plotting the correlation matrix*
 ~~~
