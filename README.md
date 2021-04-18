@@ -17,6 +17,19 @@ Things to look at:
 h;<sub>&theta;</sub>(x) = &theta;<sub>o</sub> x + &theta;<sub>1</sub>x
 
 
+## Introduction
+
+Unfortunately, I am a small man. As a result, in physical confrontations, it is clear that things would not go well. Naturally, my first instinct would be to run as fast as possible in the opposite direction of any would-be attacker, but, I don't run so good, so likely they would catch up with me anyway. Now I'm in the same situation as before, except hot, sweaty, and out of breath. Trust me, no one wants to see that.
+
+As a result, while building up my cardio engine to race away from potential danger, I need an alternative strategy. Also, building such endurance might take a while too since running is basically just slamming your knees into concrete one after the other. Not really my idea of fun. Therefore, I have done some analysis! I have looked into what makes the best fighter in an effort to mold myself into such a presence to terryify opponents and onlookers, scaring them away before battle can even begin. As [Sun Tzu](https://en.wikipedia.org/wiki/Sun_Tzu) once said:
+
+*'The supreme art of war is to subdue the enemy without fighting.'*
+
+Also, it's a nice investigation to see what sort of natural benefits are brought by different body types. We always see Fighters' Reach and Height differences before a fight, but do they really mean anything? Well, it's time to find out. Let's get ready to rumble.
+
+Naturally, a lot of this work will be based on data from the UFC, since they are the biggest and most obvious organisation around. The [UFC](https://www.ufc.com/) is a cage fighting organisation that hosts 1 v 1 matches for either 3 or 5 rounds of 5 minutes each. Winner can be declared by Knock-Out (referee decision), Submission (opponent taps), or Decision (judges scorecards at the end of the match).
+
+
 ## Table of contents
 * [Introduction](#introduction)
 * [Past Literature](#past-literature)
@@ -28,18 +41,9 @@ h;<sub>&theta;</sub>(x) = &theta;<sub>o</sub> x + &theta;<sub>1</sub>x
 * [What Actually Matters?](#what-actually-matters)
 
 
-## Introduction
-
-Unfortunately, I am a small man. As a result, in physical confrontations, it is clear that in most circumstances things would not go well. Naturally, my first instinct would be to run as fast as possible in the opposite direction of any would-be attacker, but, I don't run so good, so likely they would catch up with me anyway. Now I'm in the same situation as before, except hot, sweaty, and out of breath. Trust me, no one wants to see that.
-
-As a result, while building up my cardio engine to race away from potential danger, I need an alternative strategy. Building such an engine might take a while too since running is basically just slamming your knees into concrete one after the other, not really my idea of a fun time. Therefore, I have done some analysis! I have looked into what makes the best fighter in an effort to mold myself into such a precense to terryify opponents, scaring them away. Also, it's a nice investigation to see what sort of natural benefits are brought by different body types. We always see Fighters' Reach and Height differences before a fight, but do they really mean anything? Well, it's time to find out.
-
-The [UFC](https://www.ufc.com/) is a cage fighting organisation that hosts 1 v 1 matches for either 3 or 5 rounds of 5 minutes each. Winner can be declared by Knock-Out (referee decision), Submission (opponent taps), or Decision (judges scorecards at the end of the match).
-
-
 ## Past Literature
 
-There are many different philosphies when it comes to fighting. [Bruce Lee](https://en.wikipedia.org/wiki/Bruce_Lee) often said to 'be like water', indicating the necessity of being fluid, adaptable, flexible to anything that is presented to you. From this was born [Jeet Kune Do](https://en.wikipedia.org/wiki/Jeet_Kune_Do), widely considered one of the first attempts at mixing the martial arts. [Conor McGregor](https://en.wikipedia.org/wiki/Conor_McGregor) further emphasised this movement focussed aspect of fighting, even hiring his own movement coach, [Ido Portal](https://en.wikipedia.org/wiki/The_Ido_Portal_Method). There are [interviews](https://www.youtube.com/watch?v=eATllx9jdRM) with McGregor belittling (no surprise there) larger fighters being ['stiff as a board'](https://www.youtube.com/watch?v=sFkoF0IzXeg) and 'addicting to strength and conditioning'. Here a fighter must be nimble and have control over his movements. This echoes a man many consider [the greatest ever](https://en.wikipedia.org/wiki/Muhammad_Ali), 'float like a butterfly, sting like a bee'.
+There are many different philosphies when it comes to fighting. [Bruce Lee](https://en.wikipedia.org/wiki/Bruce_Lee) often said 'be like water', indicating the necessity of being fluid, adaptable, flexible to anything that is presented to you. From this was born [Jeet Kune Do](https://en.wikipedia.org/wiki/Jeet_Kune_Do), widely considered one of the first attempts at mixing the martial arts. [Conor McGregor](https://en.wikipedia.org/wiki/Conor_McGregor) further emphasised this movement focussed aspect of fighting, even hiring his own movement coach, [Ido Portal](https://en.wikipedia.org/wiki/The_Ido_Portal_Method). There are [interviews](https://www.youtube.com/watch?v=eATllx9jdRM) with McGregor belittling (no surprise there) larger fighters being ['stiff as a board'](https://www.youtube.com/watch?v=sFkoF0IzXeg) and 'addicting to strength and conditioning'. Here a fighter must be nimble and have control over his movements. This echoes a man many consider [the greatest ever](https://en.wikipedia.org/wiki/Muhammad_Ali), 'float like a butterfly, sting like a bee'.
 
 A classic counter to this is simply to get more jacked. Pack on the muscle and build the appearance of someone who stops trains for a living and crushes rocks with his biceps on 'chill' Sunday morning. This is definitely one way to go, and looking at [Francis Ngannou](https://en.wikipedia.org/wiki/Francis_Ngannou), the current heavyweight world champion, this might not be a bad idea. [Here is a video](https://www.youtube.com/watch?v=K76etdV24-Q) of him lifting Shaq in case you needed a bit more evidence than just looking at his Greek God Bod. However, this would come with immediate backlash, we need only go back to [Isreal Adesanya's](https://en.wikipedia.org/wiki/Israel_Adesanya) fight against [Paulo Costa](https://en.wikipedia.org/wiki/Paulo_Costa_(fighter)), another Greek God bodybuilder turned MMA Fighter. Adesanya constantly referenced before the fight the importance of [technique over muscles](https://talksport.com/sport/mma/768538/israel-adesanya-paulo-costa-hump-ufc-253-ko/). The outcome speaks for itself, 2nd Round KO and a win for Adesanya.
 
