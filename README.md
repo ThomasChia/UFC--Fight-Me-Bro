@@ -435,3 +435,10 @@ print(est2.summary())
 
 <img src="Images/UFC-linear-regression-output.png" width="700">
 
+Alright! We can see that one of our initial research areas, Reach comes out as statistically significant, with a p-value less that 0.05, and the marginal effect is positive. As a result, we can reject the null hypothesis that having a longer reach has no impact on the result of a fight. However, what is interesting is that Height is insignificant. Surprising given that the two are closely linked. However, from above work, we know that these variables are highly correlated, and so there is multicollinearity present in the regression. Removing either one of these would be beneficial and it would likely leave the other as a significant variable.
+
+This is also likely to be the story when looking at the Rounds_dif and Seconds_in_Ring_dif variables. One is shown as significant in determining the outcome of the fight, however the other is not. These two are in many ways the same and so one should be removed from the regression to avoid any problems due to multicollinearity.
+
+A final thing to add to the regression would be a squared variable for variables indicating time out of the ring. This would be really useful when looking at how 'ring rust' affects fighters and if it is truly is a real phenomenon or just something fighters say when looking for explainations of a loss.
+
+All of these represent solid potential beginnings for new research projects, as well as looking at prediction engines to see how well machine learning techniques apply to environments that are highly volatile and random, with a single punch being enough to change an entire fight.
