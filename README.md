@@ -2,19 +2,17 @@
 Scraping and analysing UFC data to see what actually matters when two people clash inside and go to war.
 
 
-Things to look at:
-- Age difference between winners and losers - histogram
-- Reach difference between winners and losers
-- Height difference between winners and losers
-- Stances with most wins and most wins as a percentage. Tricky as one stance might dominate, so need to fix this.
-- Types of finishes (KO, Sub, etc.)
-- Does past record affect win percentage, would imagine u-shaped, so more wins better until a certain point due to damage to body. Look at a fighters clock - how many fights do they have to win a world championship?
-- More strikes make you more likely to win?
-- Look to create an all time ranking
-- Regression to have a look at the impact of reach on likelihood of winning
-- Add in the machine learning models from betting.
+## Introduction
 
-h;<sub>&theta;</sub>(x) = &theta;<sub>o</sub> x + &theta;<sub>1</sub>x
+Unfortunately, I am a small man. As a result, in physical confrontations, it is clear that things would not go well. Naturally, my first instinct would be to run as fast as possible in the opposite direction of any would-be attacker, but, I don't run so good, so likely they would catch up with me anyway. Now I'm in the same situation as before, except hot, sweaty, and out of breath. Trust me, no one wants to see that.
+
+As a result, while building up my cardio engine to race away from potential danger, I need an alternative strategy. Also, building such endurance might take a while too since running is basically just slamming your knees into concrete one after the other. Not really my idea of fun. Therefore, I have done some analysis! I have looked into what makes the best fighter in an effort to mold myself into such a presence to terryify opponents and onlookers, scaring them away before battle can even begin. As [Sun Tzu](https://en.wikipedia.org/wiki/Sun_Tzu) once said:
+
+*'The supreme art of war is to subdue the enemy without fighting.'*
+
+Also, it's a nice investigation to see what sort of natural benefits are brought by different body types. We always see Fighters' Reach and Height differences before a fight, but do they really mean anything? Well, it's time to find out. Let's get ready to rumble.
+
+Naturally, a lot of this work will be based on data from the UFC, since they are the biggest and most obvious organisation around. The [UFC](https://www.ufc.com/) is a cage fighting organisation that hosts 1 v 1 matches for either 3 or 5 rounds of 5 minutes each. Winner can be declared by Knock-Out (referee decision), Submission (opponent taps), or Decision (judges scorecards at the end of the match).
 
 
 ## Table of contents
@@ -28,18 +26,9 @@ h;<sub>&theta;</sub>(x) = &theta;<sub>o</sub> x + &theta;<sub>1</sub>x
 * [What Actually Matters?](#what-actually-matters)
 
 
-## Introduction
-
-Unfortunately, I am a small man. As a result, in physical confrontations, it is clear that in most circumstances things would not go well. Naturally, my first instinct would be to run as fast as possible in the opposite direction of any would-be attacker, but, I don't run so good, so likely they would catch up with me anyway. Now I'm in the same situation as before, except hot, sweaty, and out of breath. Trust me, no one wants to see that.
-
-As a result, while building up my cardio engine to race away from potential danger, I need an alternative strategy. Building such an engine might take a while too since running is basically just slamming your knees into concrete one after the other, not really my idea of a fun time. Therefore, I have done some analysis! I have looked into what makes the best fighter in an effort to mold myself into such a precense to terryify opponents, scaring them away. Also, it's a nice investigation to see what sort of natural benefits are brought by different body types. We always see Fighters' Reach and Height differences before a fight, but do they really mean anything? Well, it's time to find out.
-
-The [UFC](https://www.ufc.com/) is a cage fighting organisation that hosts 1 v 1 matches for either 3 or 5 rounds of 5 minutes each. Winner can be declared by Knock-Out (referee decision), Submission (opponent taps), or Decision (judges scorecards at the end of the match).
-
-
 ## Past Literature
 
-There are many different philosphies when it comes to fighting. [Bruce Lee](https://en.wikipedia.org/wiki/Bruce_Lee) often said to 'be like water', indicating the necessity of being fluid, adaptable, flexible to anything that is presented to you. From this was born [Jeet Kune Do](https://en.wikipedia.org/wiki/Jeet_Kune_Do), widely considered one of the first attempts at mixing the martial arts. [Conor McGregor](https://en.wikipedia.org/wiki/Conor_McGregor) further emphasised this movement focussed aspect of fighting, even hiring his own movement coach, [Ido Portal](https://en.wikipedia.org/wiki/The_Ido_Portal_Method). There are [interviews](https://www.youtube.com/watch?v=eATllx9jdRM) with McGregor belittling (no surprise there) larger fighters being ['stiff as a board'](https://www.youtube.com/watch?v=sFkoF0IzXeg) and 'addicting to strength and conditioning'. Here a fighter must be nimble and have control over his movements. This echoes a man many consider [the greatest ever](https://en.wikipedia.org/wiki/Muhammad_Ali), 'float like a butterfly, sting like a bee'.
+There are many different philosphies when it comes to fighting. [Bruce Lee](https://en.wikipedia.org/wiki/Bruce_Lee) often said 'be like water', indicating the necessity of being fluid, adaptable, flexible to anything that is presented to you. From this was born [Jeet Kune Do](https://en.wikipedia.org/wiki/Jeet_Kune_Do), widely considered one of the first attempts at mixing the martial arts. [Conor McGregor](https://en.wikipedia.org/wiki/Conor_McGregor) further emphasised this movement focussed aspect of fighting, even hiring his own movement coach, [Ido Portal](https://en.wikipedia.org/wiki/The_Ido_Portal_Method). There are [interviews](https://www.youtube.com/watch?v=eATllx9jdRM) with McGregor belittling (no surprise there) larger fighters being ['stiff as a board'](https://www.youtube.com/watch?v=sFkoF0IzXeg) and 'addicting to strength and conditioning'. Here a fighter must be nimble and have control over his movements. This echoes a man many consider [the greatest ever](https://en.wikipedia.org/wiki/Muhammad_Ali), 'float like a butterfly, sting like a bee'.
 
 A classic counter to this is simply to get more jacked. Pack on the muscle and build the appearance of someone who stops trains for a living and crushes rocks with his biceps on 'chill' Sunday morning. This is definitely one way to go, and looking at [Francis Ngannou](https://en.wikipedia.org/wiki/Francis_Ngannou), the current heavyweight world champion, this might not be a bad idea. [Here is a video](https://www.youtube.com/watch?v=K76etdV24-Q) of him lifting Shaq in case you needed a bit more evidence than just looking at his Greek God Bod. However, this would come with immediate backlash, we need only go back to [Isreal Adesanya's](https://en.wikipedia.org/wiki/Israel_Adesanya) fight against [Paulo Costa](https://en.wikipedia.org/wiki/Paulo_Costa_(fighter)), another Greek God bodybuilder turned MMA Fighter. Adesanya constantly referenced before the fight the importance of [technique over muscles](https://talksport.com/sport/mma/768538/israel-adesanya-paulo-costa-hump-ufc-253-ko/). The outcome speaks for itself, 2nd Round KO and a win for Adesanya.
 
@@ -111,19 +100,16 @@ STR_per_min | The average number of Strikes per minute in the Fighter's career |
 
 While we have some initial hypothesis laid out in the review of past literature, it will be good to just take a general look at the data to get a feel of what is going on there. Therefore, first, as always, some summary statistics.
 
-ADD SUMMARY STATISTICS
+After some cleaning, we are left with 3143 total fights. This isn't too bad, still a lot. However, this is data for 1335 fighters i.e. less than three fights per person. The main problem with this is that obtaining information around the unobservables of each fighter will be difficult. There is a lot that goes into the outcome of a fight, beyond what is in this dataset. Commentators often talk about 'grit', 'determination', and 'heart' all as things that push fighters beyond what they though possible. These are things that are highly unlikely to be captured here, but on the otherhand, the brightest minds in the world can't yet quantify 'grit', pretty confident my small brain wouldn't be able to either. Another area this will hit is predictions should that be a focus of future projects, again as these unobservables are unlikely to be appropriately measured. The main reason for this small dataset is reducing fights down to only those for which we have odds data (since this is pretty much the best predictor we have and to be fair may well capture some of these unobservables I was so devastated by only moments ago, huzzah!).
 
-NUMBER OF FIGHTERS
-NUMBER OF FIGHTS
-AVERAGE AGE OF FIGHTERS
-DISTANCE OF FIGHTS
-WIN METHODS
-NUMBER OF EVENTS
-EVENTS OVER TIME
+Looking at the number of fights over time, we see that this has steadily grown since the mid-2000s, which is to be expected as the UFC has become increasingly popular and MMA and increasingly mainstream sport. We see events levelling off from 2015 onwards, however, this is more due to consequences of cleaning and this number has in reality has been growing steadily. Of course expect in 2020 as a result of a stupid virus going round that basically shutdown the world. Classic.
+
+![Fights Over Time](Images/UFC-fights-over-time.png?raw=true "Fights Over Time")
+
 
 #### Correlation Matrix
 
-Next it will be useful to see how all of these variables interact with each other. What seems to be linked with what? To do this, we will use our trusty correlation matrix. This will help us to understand our data better and the connections between variables, as well as give an indication of potential causes of multicollinearity later down the line.
+Before jumping into analysis like some overexcited rat lunging for cheese when a cold metal bar comes smashing down on its neck, it will be first useful to see how all of these variables interact with each other. What seems to be linked with what? To do this, we will use our trusty correlation matrix. This will help us to understand our data better and the connections between variables, as well as give an indication of potential causes of multicollinearity later down the line.
 
 *Plotting the correlation matrix*
 ~~~
@@ -438,3 +424,10 @@ print(est2.summary())
 
 <img src="Images/UFC-linear-regression-output.png" width="700">
 
+Alright! We can see that one of our initial research areas, Reach comes out as statistically significant, with a p-value less that 0.05, and the marginal effect is positive. As a result, we can reject the null hypothesis that having a longer reach has no impact on the result of a fight. However, what is interesting is that Height is insignificant. Surprising given that the two are closely linked. However, from above work, we know that these variables are highly correlated, and so there is multicollinearity present in the regression. Removing either one of these would be beneficial and it would likely leave the other as a significant variable.
+
+This is also likely to be the story when looking at the Rounds_dif and Seconds_in_Ring_dif variables. One is shown as significant in determining the outcome of the fight, however the other is not. These two are in many ways the same and so one should be removed from the regression to avoid any problems due to multicollinearity.
+
+A final thing to add to the regression would be a squared variable for variables indicating time out of the ring. This would be really useful when looking at how 'ring rust' affects fighters and if it is truly is a real phenomenon or just something fighters say when looking for explainations of a loss.
+
+All of these represent solid potential beginnings for new research projects, as well as looking at prediction engines to see how well machine learning techniques apply to environments that are highly volatile and random, with a single punch being enough to change an entire fight.
