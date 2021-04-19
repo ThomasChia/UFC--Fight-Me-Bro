@@ -293,11 +293,11 @@ Painful, neither results are significant at the 5% level. However, we do see tha
 
 
 ### Ground and Pound or Knock-Out Artist?
-There is no direct feature to say if someone is mainly a striker or a grappler, or even a combination between the two. However, it would be reasonable to assume that strikers would tend to have more finishes on their feet (more KDs and more STRs) and grapplers would have more finishes on the ground (SUBs and TDs). Therefore, a decent proxy might be to compare how fighters with more grappler heavy stats do against fighters with more striking heavy stats. This might give us an insight into which might be the preferred style before going into battle.
+There is no direct feature to say if someone is mainly a striker or a grappler, or even a combination between the two. However, it would be reasonable to assume that strikers would tend to have more finishes on their feet (more KDs and more STRs) and grapplers would have more finishes on the ground (SUBs and TDs). Therefore, a decent proxy might be to compare how fighters with more grappler heavy stats do against fighters with more striking heavy stats. This could give us insight into which style is better.
 
-One potential downfall of this might be that fighters nowadays aren't trained in a specific discipline and so the populations that we are comparing might not represent what how world-class boxers would really do against world-class wrestlers.
+One potential downfall of this is that fighters nowadays aren't trained in a specific discipline, and so the populations that we are comparing might not represent what how world-class boxers would really do against world-class wrestlers. Getting data on this would be really beneficial for future analysis.
 
-We can group based on a couple of different columns. Either, the method of finish, or the total number of past actions (strikes, takedowns, submissions, knockdowns). Since I have few friends and little better to do while in lockdonw will look at both. First up, the past actions. This is what the fighter actually does most, compared to just how the match was finished, hence might give us a better indication of their overall fighting style. Also, there is a smaller sample size when looking at the method of finish as it only gives detail on the winner, cutting the population in half. A potential expansion to this could be to add the method of loss to bridge this gap. We could then use this to indicate where a fighter is more uncomfortable and so their preferred style might be the opposite. Case and point, until recently Conor Mcgregor had never been knocked out, but submitteed multiple times, as such we would classify him as a striker. Given he had a [brief spell](https://en.wikipedia.org/wiki/Floyd_Mayweather_Jr._vs._Conor_McGregor) in boxing against [Floyd Mayweather](https://en.wikipedia.org/wiki/Floyd_Mayweather_Jr.), this might be pretty accurate.
+We can group based on a couple of different columns. Either, the method of finish, or the total number of past actions (strikes, takedowns, submissions, knockdowns). Since I have few friends and little better to do while in lockdown, will look at both. First up, past actions. This is what the fighter actually does most, compared to just how the match was finished, hence it might give us a better indication of their overall fighting style. Also, there is a smaller sample size when looking at the method of finish as it only gives detail on the winner, cutting the population in half. A potential expansion to this could be to add the method of loss to bridge this gap. We could then use this to indicate where a fighter is more uncomfortable and so their preferred style might be the opposite. Case and point, until recently Conor Mcgregor had never been knocked out, but submitteed multiple times, as such we would classify him as a striker. Given he had a [brief spell](https://en.wikipedia.org/wiki/Floyd_Mayweather_Jr._vs._Conor_McGregor) in boxing against [Floyd Mayweather](https://en.wikipedia.org/wiki/Floyd_Mayweather_Jr.), this might be pretty accurate.
 
 So problem numero uno, when we split fighters into strikers and grapplers based on *total* KDs and STRs vs total TDs and SUBs, strikes simply happen more often than grappling maneuvers. This is somewhat expect though since a submission usually finishes the fight and a takedown is very rare. Therefore, grouping based on totals will not work.
 
@@ -334,7 +334,7 @@ TD | 0.034
 KD | 0.008
 SUB | 0.013
  
-Oh dear, another problem. STR are so dominant and even include strikes on the ground, therefore, it might make sense to eliminate them, and just look at how the fight got to the ground, TDs vs KDs.
+Oh dear, another problem. STR are so dominant and even include strikes on the ground. Therefore, it might make sense to eliminate them, and just look at how the fight got to the ground, TDs vs KDs.
 
 ~~~
 data_proportions = data_types_of_fighter.sum()
@@ -350,7 +350,7 @@ Action | Proportion
 TD | 0.799
 KD | 0.201
 
-Ah that's a bit better, time to have a look.
+Ah that's a bit better.
 
 ~~~
 key_columns = ['KD_F', 'TD_F']
@@ -425,10 +425,10 @@ print(est2.summary())
 
 <img src="Images/UFC-linear-regression-output.png" width="700">
 
-Alright! We can see that one of our initial research areas, Reach comes out as statistically significant, with a p-value less that 0.05, and the marginal effect is positive. As a result, we can reject the null hypothesis that having a longer reach has no impact on the result of a fight. However, what is interesting is that Height is insignificant. Surprising given that the two are closely linked. However, from above work, we know that these variables are highly correlated, and so there is multicollinearity present in the regression. Removing either one of these would be beneficial and it would likely leave the other as a significant variable.
+Alright! We can see that one of our initial research areas, Reach comes out as statistically significant, with a p-value less that 0.05, and the marginal effect is positive. As a result, we can reject the null hypothesis that having a longer reach has no impact on the result of a fight. However, what is interesting is that Height is insignificant. Surprising given that the two are closely linked. However, from above work, we know that these variables are highly correlated, and so there is multicollinearity present in the regression. Removing either one of these would be beneficial and it would likely leave the other as a significant variable. It would also increase the accuracy of our uncertainty metrics.
 
 This is also likely to be the story when looking at the Rounds_dif and Seconds_in_Ring_dif variables. One is shown as significant in determining the outcome of the fight, however the other is not. These two are in many ways the same and so one should be removed from the regression to avoid any problems due to multicollinearity.
 
 A final thing to add to the regression would be a squared variable for variables indicating time out of the ring. This would be really useful when looking at how 'ring rust' affects fighters and if it is truly is a real phenomenon or just something fighters say when looking for explainations of a loss.
 
-All of these represent solid potential beginnings for new research projects, as well as looking at prediction engines to see how well machine learning techniques apply to environments that are highly volatile and random, with a single punch being enough to change an entire fight.
+All of these represent solid potential beginnings for new research projects. Further, we could look at prediction engines to see how well machine learning techniques apply to environments that are highly volatile and random, with a single punch being enough to change an entire fight.
