@@ -18,7 +18,6 @@ from datetime import timedelta
 import pandas as pd
 import numpy as np
 
-# address = 'Odds_Data/fight_data_odds.csv'
 address = 'Odds_Data/fight_data_odds_2.csv'
 df = pd.read_csv(address)
 df = df[::-1]
@@ -56,7 +55,6 @@ def create_elo(data):
         new_elol = elol - K_los * (1 - pwin)
         elo[w] = new_elow
         elo[l] = new_elol
-        # ranking_elo.append((elo[data.iloc[i, :].Winner], elo[data.iloc[i, :].Loser]))
         ranking_elo.append((elo[data.iloc[i - 1, :].Winner], elo[data.iloc[i - 1, :].Loser]))
         if i % 5000 == 0:
             print(str(i) + " matches computed...")
@@ -106,15 +104,8 @@ def add_fighters_elo(data):
         # these two formulas calculate the new elo scores for the winner and the loser based on the outcome of the match
         elo[w] = new_elow
         elo[l] = new_elol
-        # print(elo[w])
         # this updates the series of elo scores of fighters for the winner and the loser with the newly calculated scores
-        # print(ranking_elo)
-        # print(elo[data.iloc[i, :].Winner])
-        # ranking_elo.append((elo[data.iloc[i, :].Winner], elo[data.iloc[i, :].Loser]))
         ranking_elo.append((elo[data.iloc[i - 1, :].Winner], elo[data.iloc[i - 1, :].Loser]))
-        # ranking elo is a list of elo scores. The new scores from the last fight are added. But it actually looks like this is appending the elo score of the next player!!!! BUT why is the first row set at 1500 1500
-        # I imagine that this is tied into why it it i and not i-1 that is updated perhaps?
-        # print(ranking_elo)
         if i % 5000 == 0:
             print(str(i) + " matches computed...")
     ranking_elo = pd.DataFrame(ranking_elo, columns=["elo_winner", "elo_loser"])
@@ -140,12 +131,9 @@ def add_fighters_elo_penalty(data):
     ranking_elo = [(1500, 1500)]
     for i in range(1, len(data) + 1):
         w = data.iloc[i - 1, :].Winner
-        # print(w)
         # w is the name of the winning fighter for a given row
         l = data.iloc[i - 1, :].Loser
         # l is the name of the losing fighter for a given row
-        # data.iloc[i - 1, :]['eloW'] = elo[w]
-        # data.iloc[i - 1, :]['eloL'] = elo[l]
         data.iloc[i - 1, data.columns.get_loc('eloW')] = elo[w]
         data.iloc[i - 1, data.columns.get_loc('eloL')] = elo[l]
         # assigning the elo values to each fighter BEFORE the fight
@@ -246,7 +234,6 @@ def calc_past_record_pct(data):
     j = 0
     for i in range(0, len(data)):
         w = data.iloc[i, :].Fighter
-        # print(w)
         # w is the name of the winning fighter for a given row
         l = data.iloc[i, :].Opponent
         # l is the name of the losing fighter for a given row
@@ -589,7 +576,6 @@ def add_days_since_last(data):
     date_of_last_fight.values[:] = data['Date'][0]
     for i in range(0, len(data)):
         w = data.iloc[i, :].Fighter
-        # print(w)
         # w is the name of the winning fighter for a given row
         l = data.iloc[i, :].Opponent
         # l is the name of the losing fighter for a given row
@@ -719,6 +705,3 @@ print(df_elo_stats.head())
 df_elo_stats.to_csv('fighter_data_final_v14.csv')
 
 # data_stats = add_fighter_stats(df_elo_double, df_stats)
-
-
-# to train on new data with non-doubled rows, but half wins and other half losses.
