@@ -398,6 +398,8 @@ sns.countplot(grapplers['Type_O'], hue = grapplers['Outcome'])
 ~~~
 ![Type Differences - Grappler](Images/UFC-type-differences-Grapplers.png?raw=true "Type Differences - Grappler")
 
+So it looks like strikers do better than grapplers. Won't make old Chael happy. Further, as this is a series of Successes or Failures (Wins or Losses), this can again be modeled as a Bernoulli Trial. We will look to see if this win rate is significantly different to what we would expect if Strikers and Grapplers were perfectly equal (i.e. 50/50 split in wins).
+
 
 ## Issues
 
