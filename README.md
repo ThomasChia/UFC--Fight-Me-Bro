@@ -398,7 +398,21 @@ sns.countplot(grapplers['Type_O'], hue = grapplers['Outcome'])
 ~~~
 ![Type Differences - Grappler](Images/UFC-type-differences-Grapplers.png?raw=true "Type Differences - Grappler")
 
-So it looks like strikers do better than grapplers. Won't make old Chael happy. Further, as this is a series of Successes or Failures (Wins or Losses), this can again be modeled as a Bernoulli Trial. We will look to see if this win rate is significantly different to what we would expect if Strikers and Grapplers were perfectly equal (i.e. 50/50 split in wins).
+So it looks like strikers do better than grapplers. Won't make old Chael happy. Further, as this is a series of Successes or Failures (Wins or Losses), we can again model this as a Bernoulli Trial. We will look to see if this win rate is significantly different to what we would expect if Strikers and Grapplers were perfectly equal (i.e. 50/50 split in wins).
+
+~~~
+from scipy.stats import  binom_test
+
+pval = binom_test(x = striker_wins, n = striker_total, p = 0.5, alternative = 'two-sided')
+print('p-value:', round(pval,4))
+
+if pval<0.05:
+    print("Reject Null Hypothesis")
+else:
+    print("Accept Null Hypothesis")
+~~~
+
+After running this, a p-value of 0.0035 pops out, much lower than the 5% threshold that we have been using and so we Reject the Null Hypothesis. This indicates that there is indeed an advantage of being a striker compared to a grappler. This advantage might come from the fact that the fight starts standing up, where striking is likely to dominate. It is only after a fighter completes a takedown would a grappler feel more at home. An interesting question for the further would be, does the arbitrary decision of starting standing up affect the outcome of the match. Having said this though, even most grappling matches start on the feet before someone pulls guard or goes for a double-leg. In the meantime, however, time to throw on some gloves and start punching things.
 
 
 ## Issues
@@ -433,4 +447,4 @@ This is also likely to be the story when looking at the Rounds_dif and Seconds_i
 
 A final thing to add to the regression would be a squared variable for variables indicating time out of the ring. This would be really useful when looking at how 'ring rust' affects fighters and if it is truly is a real phenomenon or just something fighters say when looking for explainations of a loss.
 
-All of these represent solid potential beginnings for new research projects. Further, we could look at prediction engines to see how well machine learning techniques apply to environments that are highly volatile and random, with a single punch being enough to change an entire fight.
+All of these represent solid potential beginnings for new research projects. Further, we could look at prediction engines to see how well machine learning techniques apply to environments that are highly volatile and random, with a single punch being enough to change an entire fight. While we wait for that, however, I will move forward in the world knowing that picking on people smaller than me is usually a good idea.
