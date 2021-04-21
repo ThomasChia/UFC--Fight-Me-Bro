@@ -1,5 +1,5 @@
-# UFC--Ready-to-Rumble
-Scraping and analysing UFC data to see what actually matters when two people clash inside and go to war.
+# UFC--Fight-Me-Bro
+An investigation into what actually matters when two people clash and go to war.
 
 
 ## Introduction
